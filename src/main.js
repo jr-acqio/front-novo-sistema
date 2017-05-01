@@ -105,7 +105,11 @@ const routes = [
   // Some others routes
   {path: '/forgot-password', component: ForgotPassword, name: 'forgot-password'},
   {path: '/reset-password/:token', component: ResetPassword, name: 'reset-password'},
-  {path: '*', component: require('./pages/errors/notfound')}
+  {path: '*',
+    redirect: to => {
+      window.history.back()
+    }
+  }
 ]
 
 const router = new VueRouter({
