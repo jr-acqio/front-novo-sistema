@@ -29,14 +29,14 @@
     data () {
       return {
         form: new Form({
-          // grant_type: 'password',
-          // client_id: clientId,
-          // client_secret: clientSecret,
+          grant_type: 'password',
+          client_id: clientId,
+          client_secret: clientSecret,
           // email: '',
           captcha: '',
-          email: '',
-          password: ''
-          // scope: ''
+          username: '',
+          password: '',
+          scope: ''
         }),
         key: '6LcOVB8UAAAAAFuiPdmlj_IKgmqYVIfO7gfHUPs3'
       }
@@ -59,8 +59,9 @@
         //     grant_type: 'password',
         //     client_id: clientId,
         //     client_secret: clientSecret,
-        //     username: this.login.email,
-        //     password: this.login.password,
+        //     username: this.form.email,
+        //     password: this.form.password,
+        //     captcha: this.form.captcha,
         //     scope: ''
         // }
         const authUser = {}
@@ -68,14 +69,16 @@
           .then(response => {
             if (response.status === 200) {
               // console.log('Oauth token', response)
-              authUser.token = response.data.token
-              window.localStorage.setItem('authUser', JSON.stringify(authUser))
+              console.log(response)
+              this.$root.$children[0].isAuth = true
+              this.$auth.setToken(response.data.access_token, response.data.expires_in + Date.now())
+              // this.$router.push({name: 'dashboard'})
+              // authUser.token = response.data.token
+              // window.localStorage.setItem('authUser', JSON.stringify(authUser))
               this.$http.get(userUrl, {headers: getHeader()})
                 .then(response => {
-                  authUser.email = response.body.email
-                  authUser.name = response.body.name
-                  window.localStorage.setItem('authUser', JSON.stringify(authUser))
-                  this.$store.dispatch('setUserObject', authUser)
+                  window.localStorage.setItem('authUser', JSON.stringify(response.body))
+                  this.$store.dispatch('setUserObject', response.body)
                   this.$router.push({name: 'dashboard'})
                 })
             }
@@ -109,12 +112,12 @@
                 <h5 class="content-group">Faça login na sua conta <small class="display-block">Informe suas credenciais</small></h5>
               </div>
 
-              <div class="form-group has-feedback has-feedback-left" :class="{ 'has-error': form.errors.has('email') }">
-                <input type="text" class="form-control" v-model="form.email" placeholder="Email">
+              <div class="form-group has-feedback has-feedback-left" :class="{ 'has-error': form.errors.has('username') }">
+                <input type="text" class="form-control" v-model="form.username" placeholder="Email">
                 <div class="form-control-feedback">
                   <i class="icon-user text-muted"></i>
                 </div>
-                <has-error :form="form" field="email"></has-error>
+                <has-error :form="form" field="username"></has-error>
               </div>
 
               <div class="form-group has-feedback has-feedback-left" :class="{ 'has-error': form.errors.has('password') }">

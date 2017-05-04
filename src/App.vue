@@ -1,5 +1,6 @@
 <script>
 import {mapState} from 'vuex'
+import { getHeader } from './services/config'
 export default {
   metaInfo: {
     title: 'Acqio'
@@ -12,16 +13,20 @@ export default {
       userStore: state => state.userStore
     })
   },
+  data() {
+    return {
+      isAuth: null
+    }
+  },
   mounted () {
     this.$loading = this.$refs.loading
   },
   created () {
-    // if (this.$store.state.userStore.authUser) {
+    this.isAuth = this.$auth.isAuthenticated()
     const userObj = JSON.parse(window.localStorage.getItem('authUser'))
     if (userObj) {
       this.$store.dispatch('setUserObject', userObj)
     }
-
     // Loading
     // this.$root.$loading = this
   },
@@ -32,8 +37,8 @@ export default {
   },
   methods: {
     handleLogout () {
-      this.$store.dispatch('clearAuthUser')
-      window.localStorage.removeItem('authUser')
+      this.isAuth = false
+      this.$auth.destroyToken()
       this.$router.push({name: 'home'})
     }
   }
@@ -51,13 +56,13 @@ export default {
           <img src="/static/assets/images/acqio-login.png" style="height: 30px;" alt="" class="img-responsive">
         </router-link>
 
-        <ul v-if="userStore.authUser" class="nav navbar-nav visible-xs-block">
+        <ul v-if="isAuth" class="nav navbar-nav visible-xs-block">
           <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
           <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
         </ul>
       </div>
 
-      <div v-if="userStore.authUser" class="navbar-collapse collapse" id="navbar-mobile">
+      <div v-if="isAuth" class="navbar-collapse collapse" id="navbar-mobile">
         <ul class="nav navbar-nav">
           <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
         </ul>
@@ -69,7 +74,7 @@ export default {
           <li class="dropdown dropdown-user">
             <a class="dropdown-toggle" data-toggle="dropdown">
               <img src="/static/assets/images/demo/users/face0.jpg" alt="">
-              <span>{{ userStore.authUser.name }}</span>
+              <span>{{userStore.authUser.name}}</span>
               <i class="caret"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
@@ -82,7 +87,7 @@ export default {
     <!-- /main navbar -->
 
 
-    <template v-if="userStore.authUser == null">
+    <template v-if="!isAuth">
       <child></child>
     </template>
 

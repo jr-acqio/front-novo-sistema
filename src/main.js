@@ -22,6 +22,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
 import Vue from 'vue'
+import Auth from './packages/auth/Auth'
+Vue.use(Auth)
 import {
   HasError,
   HasError4,
@@ -76,20 +78,21 @@ Vue.use(ElementUI)
 const routes = [
   { path: '/',
     component: require('./pages/LoginPage'),
-    name: 'home'
+    name: 'home',
+    meta: { forVisitors: true }
   },
   // Dashboard
   { path: '/admin',
     component: require('./pages/admin/dashboard'),
     name: 'dashboard',
-    meta: { requiresAuth: true, breadcrumb: {name: 'Home', icon: 'icon-home2 position-left'} },
+    meta: { forAuth: true, breadcrumb: {name: 'Home', icon: 'icon-home2 position-left'} },
     children: [
       {
         path: 'boletos/clientes',
         component: require('./pages/admin/boletos/clientes'),
         name: 'admin.boletos.clientes',
         meta: {
-          requiresAuth: true, breadcrumb: { name: 'Boletos Cliente', icon: 'icon-barcode2' }
+          forAuth: true, breadcrumb: { name: 'Boletos Cliente', icon: 'icon-barcode2' }
         }
       },
       {
@@ -97,14 +100,23 @@ const routes = [
         component: require('./pages/admin/boletos/franchising'),
         name: 'admin.boletos.franchising',
         meta: {
-          requiresAuth: true, breadcrumb: { name: 'Boletos Franchising', icon: 'icon-barcode2' }
+          forAuth: true, breadcrumb: { name: 'Boletos Franchising', icon: 'icon-barcode2' }
         }
       }
     ]
   },
   // Some others routes
-  {path: '/forgot-password', component: ForgotPassword, name: 'forgot-password'},
-  {path: '/reset-password/:token', component: ResetPassword, name: 'reset-password'},
+  { path: '/forgot-password',
+    component: ForgotPassword,
+    name: 'forgot-password',
+    meta: { forVisitors: true }
+  },
+  {
+    path: '/reset-password/:token',
+    component: ResetPassword,
+    name: 'reset-password',
+    meta: { forVisitors: true }
+  },
   {path: '*',
     redirect: to => {
       window.history.back()
@@ -118,33 +130,33 @@ const router = new VueRouter({
 })
 sync(store, router)
 router.beforeEach((to, from, next) => {
-  // console.log(store.state.userStore.authUser)
-  const authUser = JSON.parse(window.localStorage.getItem('authUser'))
-  if (to.name === 'home' && JSON.parse(window.localStorage.getItem('authUser')) !== null) {
-  // const authUser = store.state.userStore.authUser
-  // if (to.name === 'home' && authUser !== null) {
-    console.log('Logged')
-    router.push('/admin')
-    return false
-  }
-  if (to.meta.requiresAuth) {
-    // const authUser = JSON.parse(window.localStorage.getItem('authUser'))
-    if (authUser && authUser.token) {
-      next()
+  console.log('Autenticado ?', Vue.auth.isAuthenticated())
+  if (to.matched.some(record => record.meta.forVisitors)) {
+    if (Vue.auth.isAuthenticated()) {
+      next({ name: 'dashboard' })
     } else {
-      console.log('Not logged')
-      router.push({name: 'home'})
-      return false
-      // next({name: 'home'})
+      next()
+    }
+  } else if (to.matched.some(record => record.meta.forAuth)) {
+    // Se não tiver o storage authUser sera redirecionado para login
+    if (!localStorage.getItem('authUser')) {
+      console.log('oii')
+      Vue.auth.destroyToken()
+    }
+    if (!Vue.auth.isAuthenticated()) {
+      next({ name: 'home' })
+    } else {
+      next()
     }
   }
-  next()
 })
 
 Vue.http.interceptors.push((request, next) => {
   next((response) => {
     if (response.status === 401) {
       console.log('Need to login again')
+      Vue.auth.destroyToken()
+      router.push({name: 'home'})
     }
   })
 })

@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'development') {
 const version = 'api/'
 
 // Rotas do Passport Auth
-export const loginUrl = apiDomain + version + 'authenticate'
+export const loginUrl = apiDomain + 'oauth/token'
 export const userUrl = apiDomain + 'api/user'
 export const forgotPassword = apiDomain + 'api/forgot-password'
 export const resetPassword = apiDomain + 'api/reset-password'
@@ -18,10 +18,10 @@ export const resetPassword = apiDomain + 'api/reset-password'
 export const userListUrl = apiDomain + version + 'users-list'
 
 export const getHeader = function () {
-  const tokenData = JSON.parse(window.localStorage.getItem('authUser'))
+  const tokenData = localStorage.getItem('token')
   const headers = {
     'Accept': 'application/json',
-    'Authorization': 'Bearer ' + tokenData.token
+    'Authorization': 'Bearer ' + tokenData
   }
   return headers
 }
