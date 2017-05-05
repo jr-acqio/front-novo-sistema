@@ -138,4 +138,9 @@ export default {
 body {
   font-family: 'Rajdhani';
 }
+
+//
+.el-loading-spinner .circular{
+  margin-left: 50%;
+}
 </style>

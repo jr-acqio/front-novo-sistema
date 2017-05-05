@@ -188,6 +188,7 @@
     <datatable-slot
     title="Boletos - Clientes"
     id="table1"
+    v-loading.body="loading"
     url="http://localhost:8000/api/teste"
     :headers="[
     { header: '#' },
@@ -249,6 +250,7 @@ import { boletosClienteUrl, boletosDownloadUrl } from './../../../services/confi
 export default {
   data() {
     return {
+      loading: true,
       rows: '',
       rowView: '',
       dialogVisible: false,
@@ -267,6 +269,7 @@ export default {
           responsive: true
         })
       }, 100)
+      this.loading = false
     }).catch(error => {
       console.log(error)
     })
@@ -314,5 +317,8 @@ export default {
 
 </script>
 
-<style lang="css">
+<style scoped="">
+body {
+    margin: 0;
+  }
 </style>

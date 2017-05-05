@@ -34,7 +34,7 @@
           client_secret: clientSecret,
           // email: '',
           captcha: '',
-          username: '',
+          email: '',
           password: '',
           scope: ''
         }),
@@ -68,13 +68,9 @@
         this.form.post(loginUrl)
           .then(response => {
             if (response.status === 200) {
-              // console.log('Oauth token', response)
               console.log(response)
               this.$root.$children[0].isAuth = true
               this.$auth.setToken(response.data.access_token, response.data.expires_in + Date.now())
-              // this.$router.push({name: 'dashboard'})
-              // authUser.token = response.data.token
-              // window.localStorage.setItem('authUser', JSON.stringify(authUser))
               this.$http.get(userUrl, {headers: getHeader()})
                 .then(response => {
                   window.localStorage.setItem('authUser', JSON.stringify(response.body))
@@ -112,12 +108,12 @@
                 <h5 class="content-group">Faça login na sua conta <small class="display-block">Informe suas credenciais</small></h5>
               </div>
 
-              <div class="form-group has-feedback has-feedback-left" :class="{ 'has-error': form.errors.has('username') }">
-                <input type="text" class="form-control" v-model="form.username" placeholder="Email">
+              <div class="form-group has-feedback has-feedback-left" :class="{ 'has-error': form.errors.has('email') }">
+                <input type="text" class="form-control" v-model="form.email" placeholder="Email">
                 <div class="form-control-feedback">
                   <i class="icon-user text-muted"></i>
                 </div>
-                <has-error :form="form" field="username"></has-error>
+                <has-error :form="form" field="email"></has-error>
               </div>
 
               <div class="form-group has-feedback has-feedback-left" :class="{ 'has-error': form.errors.has('password') }">

@@ -9,8 +9,8 @@ if (process.env.NODE_ENV !== 'development') {
 const version = 'api/'
 
 // Rotas do Passport Auth
-export const loginUrl = apiDomain + 'oauth/token'
-export const userUrl = apiDomain + 'api/user'
+export const loginUrl = apiDomain + 'api/authenticate'
+export const userUrl = apiDomain + 'api/me'
 export const forgotPassword = apiDomain + 'api/forgot-password'
 export const resetPassword = apiDomain + 'api/reset-password'
 

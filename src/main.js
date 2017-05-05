@@ -138,12 +138,8 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else if (to.matched.some(record => record.meta.forAuth)) {
-    // Se não tiver o storage authUser sera redirecionado para login
-    if (!localStorage.getItem('authUser')) {
-      console.log('oii')
+    if (!Vue.auth.isAuthenticated() || !localStorage.getItem('authUser')) {
       Vue.auth.destroyToken()
-    }
-    if (!Vue.auth.isAuthenticated()) {
       next({ name: 'home' })
     } else {
       next()
