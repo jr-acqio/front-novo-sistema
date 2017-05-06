@@ -1,6 +1,5 @@
 <script>
   import {loginUrl, getHeader, userUrl} from './../services/config'
-  import {clientId, clientSecret} from './../env'
   import {mapState} from 'vuex'
   import { Form } from 'vform'
   import VueRecaptcha from 'vue-recaptcha'
@@ -15,10 +14,8 @@
       this.$nextTick(function () {
         $.getScript('/static/assets/js/plugins/forms/styling/uniform.min.js')
         $.getScript('/static/assets/js/pages/login.js')
-        // $.getScript('https://www.google.com/recaptcha/api.js')
         $.getScript('https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit')
         $('body').addClass('login-container')
-        // console.log(this.form)
       })
     },
     computed: {
@@ -29,16 +26,13 @@
     data () {
       return {
         form: new Form({
-          grant_type: 'password',
-          client_id: clientId,
-          client_secret: clientSecret,
-          // email: '',
           captcha: '',
           email: '',
-          password: '',
-          scope: ''
+          password: ''
         }),
-        key: '6LcOVB8UAAAAAFuiPdmlj_IKgmqYVIfO7gfHUPs3'
+        key: '6LcOVB8UAAAAAFuiPdmlj_IKgmqYVIfO7gfHUPs3',
+        msgButtonSubmit: 'Login <i class="icon-arrow-right14 position-right"></i>',
+        loading: false
       }
     },
     methods: {
@@ -55,30 +49,28 @@
         this.form.captcha = ''
       },
       handleLoginFormSubmit () {
-        // var postData = {
-        //     grant_type: 'password',
-        //     client_id: clientId,
-        //     client_secret: clientSecret,
-        //     username: this.form.email,
-        //     password: this.form.password,
-        //     captcha: this.form.captcha,
-        //     scope: ''
-        // }
-        const authUser = {}
-        this.form.post(loginUrl)
-          .then(response => {
-            if (response.status === 200) {
-              console.log(response)
-              this.$root.$children[0].isAuth = true
-              this.$auth.setToken(response.data.access_token, response.data.expires_in + Date.now())
-              this.$http.get(userUrl, {headers: getHeader()})
-                .then(response => {
-                  window.localStorage.setItem('authUser', JSON.stringify(response.body))
-                  this.$store.dispatch('setUserObject', response.body)
-                  this.$router.push({name: 'dashboard'})
-                })
-            }
-          })
+        this.loading = true
+        this.msgButtonSubmit = 'Aguarde...  <i class="el-icon-loading"></i>'
+        var self = this
+        setTimeout(function() {
+          const authUser = {}
+          self.form.post(loginUrl)
+            .then(response => {
+              if (response.status === 200) {
+                console.log(response)
+                self.$root.$children[0].isAuth = true
+                self.$auth.setToken(response.data.access_token, response.data.expires_in + Date.now())
+                self.$http.get(userUrl, {headers: getHeader()})
+                  .then(response => {
+                    window.localStorage.setItem('authUser', JSON.stringify(response.body))
+                    self.$store.dispatch('setUserObject', response.body)
+                    self.$router.push({name: 'dashboard'})
+                  })
+              }
+            })
+            self.loading = false
+            self.msgButtonSubmit = 'Login <i class="icon-arrow-right14 position-right"></i>'
+        }, 1000)
       }
     }
   }
@@ -125,7 +117,7 @@
               </div>
 
 
-              <div class="form-group login-options">
+              <div class="form-group">
                 <div class="row">
                   <!-- <div class="col-sm-12"> -->
                     <vue-recaptcha :sitekey="key" @verify="onVerify" @expired="onExpired"></vue-recaptcha>
@@ -145,7 +137,9 @@
               </div>
 
               <div class="form-group">
-                <button type="submit" data-style="expand-right" :disabled="form.busy || form.captcha == ''" class="btn bg-blue btn-block ladda-button"><span class="ladda-label">Login</span><i class="icon-arrow-right14 position-right"></i></button>
+                <button type="submit" data-style="expand-right" :disabled="form.busy || form.captcha == ''" class="btn bg-blue btn-block">
+                  <span v-html="msgButtonSubmit"></span>
+                </button>
               </div>
 
             </div>
@@ -167,6 +161,6 @@
   </div>
 </template>
 
-<style lang="sass">
+<style lang="scss">
 
 </style>

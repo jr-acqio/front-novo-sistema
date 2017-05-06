@@ -52,7 +52,7 @@ export default {
     <!-- Main navbar -->
     <div class="navbar navbar-inverse">
       <div class="navbar-header">
-        <router-link :to="{ name: 'home' }" style="padding: 10px 10px !important;" :class="{ 'navbar-brand' : true }">
+        <router-link :to="{ name: 'home' }" style="padding: 7px !important;" :class="{ 'navbar-brand' : true }">
           <img src="/static/assets/images/acqio-login.png" style="height: 30px;" alt="" class="img-responsive">
         </router-link>
 
