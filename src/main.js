@@ -34,7 +34,9 @@ import {
 import axios from 'axios'
 import VueEvents from 'vue-events'
 import VueRouter from 'vue-router'
-import VueResource from 'vue-resource'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
+// import VueResource from 'vue-resource'
 import Meta from 'vue-meta'
 import store from './store'
 import { sync } from 'vuex-router-sync'
@@ -68,7 +70,7 @@ configureDataTables($)
 
 // Installations
 Vue.use(VueRouter)
-Vue.use(VueResource)
+// Vue.use(VueResource)
 Vue.use(Logger, {loggin: true})
 Vue.use(Meta)
 Vue.use(VueEvents)
@@ -147,14 +149,15 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-Vue.http.interceptors.push((request, next) => {
-  next((response) => {
-    if (response.status === 401) {
-      console.log('Need to login again')
-      Vue.auth.destroyToken()
-      router.push({name: 'home'})
-    }
-  })
+axios.interceptors.response.use(function (response) {
+  return response
+}, function (error) {
+  if (error.response.status === 401 || error.response.status === 400) {
+    console.log('Need to login again')
+    Vue.auth.destroyToken()
+    router.push({name: 'home'})
+  }
+  return Promise.reject(error)
 })
 
 var app = new Vue({

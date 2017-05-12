@@ -57,13 +57,12 @@
           self.form.post(loginUrl)
             .then(response => {
               if (response.status === 200) {
-                console.log(response)
-                self.$root.$children[0].isAuth = true
                 self.$auth.setToken(response.data.access_token, response.data.expires_in + Date.now())
-                self.$http.get(userUrl, {headers: getHeader()})
+                self.axios.get(userUrl, {headers: getHeader()})
                   .then(response => {
-                    window.localStorage.setItem('authUser', JSON.stringify(response.body))
-                    self.$store.dispatch('setUserObject', response.body)
+                    window.localStorage.setItem('authUser', JSON.stringify(response.data))
+                    self.$root.$children[0].isAuth = true
+                    self.$store.dispatch('setUserObject', response.data)
                     self.$router.push({name: 'dashboard'})
                   })
               }
