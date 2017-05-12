@@ -6,18 +6,20 @@
       </div>
 
       <div class="panel-body">
-        <table class="table table-bordered table-hover" v-bind:id="id" v-bind:items="items">
-          <thead>
-            <tr>
-              <th v-for="h in headers">
-                {{ h.header }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <slot></slot>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover" v-bind:id="id" v-bind:items="items">
+            <thead>
+              <tr>
+                <th v-for="h in headers">
+                  {{ h.header }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <slot></slot>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -48,10 +50,10 @@ export default {
     }
   },
   mounted() {
-    // var self = this
-    // setTimeout(function() {
-    //   self.carregar()
-    // }, 500)
+    // $('#table1 tfoot th').each(function () {
+    //   var title = $(this).text()
+    //   $(this).html('<input type="text" placeholder="Search ' + title + '" />')
+    // })
   },
   methods: {
     carregar() {

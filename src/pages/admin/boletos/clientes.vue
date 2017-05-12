@@ -22,6 +22,12 @@
             <span v-else><b>Visualizar Produtos</b>&nbsp<i class="icon-search4"></i></span>
           </button>
         </div>
+        <div class="col-lg-2">
+          <div class="form-group">
+            <label for="">Situação</label>
+            <input v-bind:class="rowView.situacao == true ? 'text-success' : 'text-danger'" type="text" class="form-control" disabled name="" :value="rowView.situacao == true ? 'PAGO' : 'ABERTO'">
+          </div>
+        </div>
         <div class="col-lg-2 pull-right">
           <div class="form-group">
             <label for="">Solicitado em:</label>
@@ -197,29 +203,47 @@
     { header: 'Documento' },
     { header: 'Valor R$' },
     { header: 'Data de Solicitação'},
+    { header: 'Nosso Número'},
+    { header: 'Vencimento'},
+    { header: 'Situação'},
     { header: 'Solicitante'},
     { header: 'Tipo Solicitante'},
     { header: 'Ações' }
     ]">
-    <tr v-for="(row, index) in rows.data">
+    <tr v-for="(row, index) in rows">
       <td>{{ index + 1 }}</td>
       <!-- <td>{{ row.id }}</td> -->
       <td>{{ row.nome_cliente.toUpperCase() }}</td>
       <td>{{ row.documento }}</td>
       <td>{{ formatNumber(somaProduto(row)) }}</td>
       <td>{{ date(row.created_at) }}</td>
-
+      <td>{{ row.nosso_numero }}</td>
+      <td>
+        {{ dateNormal(row.vencimento) }}
+      </td>
+      <td>
+        <span v-if="!row.situacao" class="label bg-danger">
+          ABERTO
+        </span>
+        <span v-else class="label bg-success">
+          PAGO
+        </span>
+      </td>
+      <!-- Solicitante -->
       <td v-if="row.cliente.idfranqueado != null">
         {{ row.cliente.franqueado.nome_razao }}
       </td>
       <td v-else>
         {{ row.cliente.fda.nome_razao }}
       </td>
-
+      <!-- /Solicitante -->
+      <!-- Tipo Solicitante -->
       <td v-if="row.cliente.idfranqueado != null">
         Franqueado
       </td>
       <td v-else>Fda</td>
+      <!-- /Tipo Solicitante -->
+
       <td sortable="false">
         <ul class="icons-list">
           <li class="dropdown">
@@ -228,10 +252,10 @@
             </a>
 
             <ul class="dropdown-menu dropdown-menu-right">
-              <!-- <li @click="onAction('edit-item', index + 1)"><a href="javascript:void(0)"><i class="icon-pencil7"></i> Editar</a></li> -->
-              <li @click="onAction('view-item', index)"><a href="javascript:void(0)"><i class="icon-folder-search"></i> Visualizar</a></li>
-              <!-- <li @click="onAction('delete-item', index + 1)"><a href="javascript:void(0)"><i class="icon-cross2"></i> Excluir</a></li> -->
-              <li @click="onAction('download', index)">
+              <li @click="onAction('view-edit', index)">
+                <a href="javascript:void(0)"><i class="icon-folder-search"></i> Visualizar</a>
+              </li>
+              <li>
                 <a target="_blank" :href="urlDownloadBoleto(row.token)"><i class="icon-barcode2"></i> Download Boleto</a>
               </li>
             </ul>
@@ -248,27 +272,56 @@ import accounting from 'accounting'
 import { fetchAllBoletoCliente } from './../../../services/api'
 import { boletosClienteUrl, boletosDownloadUrl } from './../../../services/config'
 export default {
+  metaInfo: {
+		titleTemplate: '%s - Boletos Cliente'
+	},
   data() {
     return {
       loading: true,
-      rows: '',
+      rows: [],
       rowView: '',
       dialogVisible: false,
-      viewProducts: false
+      viewProducts: false,
+      dtHandle: null
     }
   },
   mounted() {
-    console.log(this.$route)
+    // console.log(this.$route)
     fetchAllBoletoCliente().then(response => {
-      this.rows = response
-      setTimeout(function() {
-        this.data_table = $('#' + 'table1').DataTable({
-          dom: 'lBfrtip',
-          buttons: ['csv', 'excel', 'pdf', 'print', 'copy'],
-          colReorder: true,
-          responsive: true
-        })
+      this.rows = response.data
+      var self = this
+        setTimeout(function() {
+          self.dtHandle = $('#' + 'table1').DataTable({
+            "columnDefs": [
+                {
+                    "targets": [ 8 ],
+                    // Solicitante
+                    "visible": false
+                },
+                {
+                    "targets": [ 9 ],
+                    // Tipo Solicitante
+                    "visible": false
+                },
+                {
+                  "targets": [10],
+                  "sortable": false
+                }
+            ]
+          })
       }, 100)
+      // Apply the search
+    // this.data_table.columns().every(function () {
+    //     var that = this
+    //     $('input', this.footer()).on('keyup change', function () {
+    //       console.log('pesquisando')
+    //         if (that.search() !== this.value) {
+    //             that
+    //                 .search(this.value)
+    //                 .draw()
+    //         }
+    //     })
+    // })
       this.loading = false
     }).catch(error => {
       console.log(error)
@@ -281,8 +334,14 @@ export default {
     })
   },
   methods: {
+    dateLarger (date1, date2) {
+      return moment(date1) > moment(date2)
+    },
     date (val) {
       return moment(val).format('DD/MM/YYYY HH:mm:ss')
+    },
+    dateNormal (val) {
+      return moment(val).format('DD/MM/YYYY') === 'Invalid date' ? 'Data inválida' : moment(val).format('DD/MM/YYYY')
     },
     formatNumber (value) {
       return 'R$ ' + accounting.formatNumber(value, 2)
@@ -310,7 +369,7 @@ export default {
     },
     onAction (action, rowIndex) {
       this.dialogVisible = true
-      this.rowView = this.rows.data[rowIndex]
+      this.rowView = this.rows[rowIndex]
     }
   }
 }
