@@ -28,7 +28,7 @@ import {
   HasError,
   HasError4,
   AlertError,
-  AlertErrors,
+  // AlertErrors,
   AlertSuccess
 } from 'vform'
 import axios from 'axios'
@@ -64,7 +64,8 @@ Vue.component('datatable-slot', require('./components/Tables/DataTableSlot'))
 Vue.component('breadcrumb', require('./layouts/Breadcrumbs'))
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
-Vue.component(AlertErrors.name, AlertErrors)
+// Vue.component(AlertErrors.name, AlertErrors)
+Vue.component('alert-errors', require('./components/VForm/Errors'))
 Vue.component(AlertSuccess.name, AlertSuccess)
 configureDataTables($)
 
@@ -84,23 +85,23 @@ const routes = [
     meta: { forVisitors: true }
   },
   // Dashboard
-  { path: '/admin',
+  { path: '/home',
     component: require('./pages/admin/dashboard'),
     name: 'dashboard',
     meta: { forAuth: true, breadcrumb: {name: 'Home', icon: 'icon-home2 position-left'} },
     children: [
       {
-        path: 'boletos/clientes',
+        path: '/boletos/clientes',
         component: require('./pages/admin/boletos/clientes'),
-        name: 'admin.boletos.clientes',
+        name: 'boletos.clientes',
         meta: {
           forAuth: true, breadcrumb: { name: 'Boletos Cliente', icon: 'icon-barcode2' }
         }
       },
       {
-        path: 'boletos/franchising',
+        path: '/boletos/franchising',
         component: require('./pages/admin/boletos/franchising'),
-        name: 'admin.boletos.franchising',
+        name: 'boletos.franchising',
         meta: {
           forAuth: true, breadcrumb: { name: 'Boletos Franchising', icon: 'icon-barcode2' }
         }
@@ -132,7 +133,7 @@ const router = new VueRouter({
 })
 sync(store, router)
 router.beforeEach((to, from, next) => {
-  console.log('Autenticado ?', Vue.auth.isAuthenticated())
+  // console.log('Autenticado ?', Vue.auth.isAuthenticated())
   if (to.matched.some(record => record.meta.forVisitors)) {
     if (Vue.auth.isAuthenticated()) {
       next({ name: 'dashboard' })

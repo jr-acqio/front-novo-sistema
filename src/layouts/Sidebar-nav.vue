@@ -17,6 +17,14 @@ export default{
 	},
 	methods: {
 		active(val) {
+			let patt = new RegExp(val)
+			if (this.$route.path === val || patt.test(this.$route.path)) {
+				return true
+			}
+			return false
+		},
+		activeChildren(val) {
+			console.log(this.$route.path, val, this.$route.path === val)
 			if (this.$route.path === val) {
 				return true
 			}
@@ -79,7 +87,7 @@ export default{
 									<i :class="m.icon"></i> 	<span>{{m.name}}</span>
 								</a>
 								<ul v-if="m.hasOwnProperty('children')" class="">
-									<li v-for="child in m.children">
+									<li v-for="child in m.children" :class="{ 'active' : activeChildren(child.link) }">
 										<router-link :to="{ name: child.path_name }">{{child.name}}</router-link>
 									</li>
 								</ul>
