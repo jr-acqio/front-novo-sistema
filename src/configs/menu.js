@@ -33,6 +33,26 @@ export default [
   {
     header: 'Segurança',
     navigations: [
+        {
+            name: 'Meu Perfil',
+            path_name: 'security.profile',
+            link: '/security/profile',
+            icon: 'icon-user'
+          }
+        // children: [
+        //   {
+        //     name: 'Boletos Clientes',
+        //     path_name: 'boletos.clientes',
+        //     link: '/boletos/clientes',
+        //     icon: 'icon-barcode2'
+        //   },
+        //   {
+        //     name: 'Boletos Franchising',
+        //     path_name: 'boletos.franchising',
+        //     link: '/boletos/franchising',
+        //     icon: 'icon-barcode2'
+        //   }
+        // ]
     ]
   }
 ]

@@ -24,7 +24,7 @@ export default{
 			return false
 		},
 		activeChildren(val) {
-			console.log(this.$route.path, val, this.$route.path === val)
+			// console.log(this.$route.path, val, this.$route.path === val)
 			if (this.$route.path === val) {
 				return true
 			}

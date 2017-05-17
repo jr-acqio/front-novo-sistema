@@ -310,18 +310,6 @@ export default {
             ]
           })
       }, 100)
-      // Apply the search
-    // this.data_table.columns().every(function () {
-    //     var that = this
-    //     $('input', this.footer()).on('keyup change', function () {
-    //       console.log('pesquisando')
-    //         if (that.search() !== this.value) {
-    //             that
-    //                 .search(this.value)
-    //                 .draw()
-    //         }
-    //     })
-    // })
       this.loading = false
     }).catch(error => {
       console.log(error)

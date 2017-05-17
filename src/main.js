@@ -105,6 +105,14 @@ const routes = [
         meta: {
           forAuth: true, breadcrumb: { name: 'Boletos Franchising', icon: 'icon-barcode2' }
         }
+      },
+      {
+        path: '/security/profile',
+        component: require('./Modulos/Usuario/pages/profile'),
+        name: 'security.profile',
+        meta: {
+          forAuth: true, breadcrumb: { name: 'Meu Perfil', icon: '' }
+        }
       }
     ]
   },
@@ -150,21 +158,22 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-axios.interceptors.response.use(function (response) {
-  return response
-}, function (error) {
-  if (error.response.status === 401 || error.response.status === 400) {
-    console.log('Need to login again')
-    Vue.auth.destroyToken()
-    router.push({name: 'home'})
-  }
-  return Promise.reject(error)
-})
-
 var app = new Vue({
   el: '#app',
   router,
   store,
   template: '<App/>',
   components: { App }
+})
+
+axios.interceptors.response.use(function (response) {
+  return response
+}, function (error) {
+  if (error.response.status === 401 || error.response.status === 400) {
+    console.log('Need to login again')
+    app.$root.$children[0].isAuth = false
+    Vue.auth.destroyToken()
+    router.push({name: 'home'})
+  }
+  return Promise.reject(error)
 })

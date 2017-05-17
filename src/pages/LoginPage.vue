@@ -160,6 +160,11 @@
   </div>
 </template>
 
-<style lang="scss">
-
+<style scoped="">
+.login-container{
+  padding: 0px !important;
+}
+.content {
+  padding: 0px !important;
+}
 </style>
