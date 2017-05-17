@@ -175,6 +175,12 @@ axios.interceptors.response.use(function (response) {
     app.$root.$children[0].isAuth = false
     Vue.auth.destroyToken()
     router.push({name: 'home'})
+    app.$root.$notify({
+      title: 'Erro',
+      message: 'Seção finalizada, para ter acesso realize seu login',
+      type: 'error',
+      duration: 5000
+    })
   }
   return Promise.reject(error)
 })

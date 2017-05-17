@@ -273,6 +273,13 @@ export default {
       this.loading = false
     }).catch(error => {
       console.log(error)
+      this.loading = false
+      this.$notify({
+        title: 'Erro',
+        message: 'Houve um erro de resposta no servidor',
+        type: 'error',
+        duration: 5000
+      })
     })
   },
   created() {
