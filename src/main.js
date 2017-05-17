@@ -51,6 +51,7 @@ import Clients from './components/Passport/Clients'
 import configureDataTables from './configureDataTables'
 
 // Components Layouts
+Vue.component('dashboard', require('./pages/admin/dashboard'))
 Vue.component('login-page', require('./pages/LoginPage'))
 Vue.component('child', require('./components/Child'))
 Vue.component('loading', require('./components/Loading'))

@@ -2,27 +2,7 @@
 	<div>
 		<div class="row" v-if="$route.path == '/home'">
 			<div class="col-lg-12">
-				<div class="panel panel-flat">
-
-					<div class="panel-heading">
-						<h6 class="panel-title">Gráfico - Boletos Solicitados / Mês</h6>
-						<div class="heading-elements">
-							<form class="heading-form" action="#">
-								<div class="form-group">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="icon-calendar22"></i></span>
-										<input type="text" class="form-control daterange" value="">
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-					<div class="panel-body">
-						<chartjs-line :height="50" :fill="false" datalabel="Boletos Solicitados" :labels="labels" :data="data" :bind="true"></chartjs-line>
-
-					</div>
-
-				</div>
+				<graph-boleto-solicitado></graph-boleto-solicitado>
 			</div>
 		</div>
 
@@ -35,23 +15,17 @@
 </template>
 
 <script>
+import GraphBoletoSolicitado from './../../Modulos/Boletos/components/Graphs/BoletoSolicitado'
 export default {
 	metaInfo: {
 		titleTemplate: '%s - Dashboard'
 	},
+	components: {
+		GraphBoletoSolicitado
+	},
 	mounted() {
-		this.$nextTick(function () {
-			$('.daterange').daterangepicker()
-		})
 	},
 	methods: {
-	},
-	data () {
-		return {
-			label: "Boletos Solicitados",
-			labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Setembro", "Outubro", "Novembro", "Dezembro"],
-			data: [65, 59, 80, 81, 56, 55, 40, 55, 10, 30, 15]
-		}
 	},
 	created () {
 		$('body').removeClass('login-container')

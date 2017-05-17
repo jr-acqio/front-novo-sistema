@@ -106,6 +106,7 @@ export default {
             <div class="content">
 
               <child></child>
+              <!-- <dashboard></dashboard> -->
 
               <!-- Footer -->
               <vs-footer></vs-footer>

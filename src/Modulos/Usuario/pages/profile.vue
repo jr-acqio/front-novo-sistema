@@ -1,6 +1,5 @@
 <template lang="html">
   <div class="">
-    <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
           Meu Perfil
@@ -34,7 +33,6 @@
           </div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
