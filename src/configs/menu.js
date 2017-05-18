@@ -10,7 +10,6 @@ export default [
       },
       {
         name: 'Boletos',
-        // path_name: 'admin.boletos',
         link: '/boletos',
         icon: 'icon-barcode2',
         children: [
@@ -35,24 +34,28 @@ export default [
     navigations: [
         {
             name: 'Meu Perfil',
-            path_name: 'security.profile',
             link: '/security/profile',
+            path_name: 'security.profile',
             icon: 'icon-user'
           }
-        // children: [
-        //   {
-        //     name: 'Boletos Clientes',
-        //     path_name: 'boletos.clientes',
-        //     link: '/boletos/clientes',
-        //     icon: 'icon-barcode2'
-        //   },
-        //   {
-        //     name: 'Boletos Franchising',
-        //     path_name: 'boletos.franchising',
-        //     link: '/boletos/franchising',
-        //     icon: 'icon-barcode2'
-        //   }
-        // ]
+    ]
+  },
+  {
+    header: 'Analytics',
+    navigations: [
+        {
+            name: 'Analytics',
+            link: '/analytics',
+            icon: 'icon-statistics',
+            children: [
+              {
+                name: 'Analytics Boletos',
+                path_name: 'analytics.boletos',
+                link: '/analytics/boletos',
+                icon: 'icon-barcode2'
+              }
+            ]
+        }
     ]
   }
 ]

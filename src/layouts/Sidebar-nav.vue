@@ -17,7 +17,7 @@ export default{
 	},
 	methods: {
 		active(val) {
-			let patt = new RegExp(val)
+			let patt = new RegExp(val + "/")
 			if (this.$route.path === val || patt.test(this.$route.path)) {
 				return true
 			}

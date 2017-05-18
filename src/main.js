@@ -114,6 +114,14 @@ const routes = [
         meta: {
           forAuth: true, breadcrumb: { name: 'Meu Perfil', icon: '' }
         }
+      },
+      {
+        path: '/analytics/boletos',
+        component: require('./Modulos/Analytics/pages/boletos'),
+        name: 'analytics.boletos',
+        meta: {
+          forAuth: true, breadcrumb: { name: 'Analytics Boleto', icon: '' }
+        }
       }
     ]
   },
