@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="">
-      <div class="panel panel-default">
+      <div class="panel panel-default" v-loading.body="loading">
         <div class="panel-heading">
           Meu Perfil
         </div>
@@ -45,15 +45,21 @@ export default {
   },
   data() {
     return {
-      user: ''
+      user: '',
+      loading: true
     }
   },
   created() {
-    this.$http.get(userUrl, { headers: getHeader() }).then(response => {
-      this.user = response.data
-    }).catch(response => {
-      console.log(response)
-    })
+    let self = this
+    setTimeout(function() {
+      self.$http.get(userUrl, { headers: getHeader() }).then(response => {
+        self.user = response.data
+      }).catch(response => {
+        console.log(response)
+        self.$notify({ title: 'Erro', message: 'Houve um erro de resposta no servidor', type: 'error', duration: 5000 })
+      })
+      self.loading = false
+    }, 1000)
   }
 }
 </script>
