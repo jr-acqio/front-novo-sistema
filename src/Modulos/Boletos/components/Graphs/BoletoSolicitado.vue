@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="panel-body">
-        <chartjs-line :height="50" :fill="false" datalabel="Boletos Solicitados" :labels="labels" :data="data" :bind="true"></chartjs-line>
+        <chartjs-line :responsive="true" :height="50" :fill="false" datalabel="Boletos Solicitados" :labels="labels" :data="data" :bind="true"></chartjs-line>
       </div>
     </div>
   </div>
@@ -25,15 +25,37 @@
 export default {
   data () {
     return {
-      // timeRequest: moment().format('DD-MM-YYYY') + ' - ' + moment().format('DD-MM-YYYY'),
-      timeRequest: '',
-      loading: true,
+      timeRequest: moment().startOf('month').format('DD/MM/YYYY') + ' - ' + moment().endOf('month').format('DD/MM/YYYY'),
+      // timeRequest: '',
+      loading: false,
       label: "",
       labels: [],
       data: []
     }
   },
+  watch: {
+    timeRequest(val) {
+      console.log(val)
+    }
+  },
+  methods: {
+    fetchData() {
+      this.loading = true
+      this.axios.get('http://localhost:8081/api/v1/boletos-solicitados', { params: { data: this.timeRequest } }).then(response => {
+        console.log(response)
+        this.labels = []
+        this.data = []
+        for (var i = 0; i < response.data.length; i++) {
+          this.labels.push(response.data[i].month_name)
+          this.data.push(response.data[i].amount)
+          this.label = "Boletos Solicitados"
+          this.loading = false
+        }
+      })
+    }
+  },
   mounted() {
+    let self = this
     $('.daterange').daterangepicker({
       "locale": {
         "format": "DD/MM/YYYY",
@@ -44,8 +66,8 @@ export default {
         "toLabel": "Para",
         "customRangeLabel": "Customizado"
       },
-      startDate: moment().format('DD-MM-YYYY'),
-      endDate: moment().format('DD-MM-YYYY'),
+      startDate: moment().startOf('month').format('DD/MM/YYYY'),
+      endDate: moment().endOf('month').format('DD/MM/YYYY'),
       ranges: {
         'Hoje': [moment(), moment()],
         'Ontem': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -54,15 +76,12 @@ export default {
         'Esse Mês': [moment().startOf('month'), moment().endOf('month')],
         'Último Mês': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
       }
+    }).on("input change", function (e) {
+        self.timeRequest = e.target.value
+        self.fetchData()
     })
-    this.timeRequest = moment().format('DD-MM-YYYY') + ' - ' + moment().format('DD-MM-YYYY')
-    let self = this
-    setTimeout(function() {
-      self.label = "Boletos Solicitados"
-      self.labels = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Setembro", "Outubro", "Novembro", "Dezembro"]
-      self.data = [65, 59, 80, 81, 56, 55, 40, 55, 10, 30, 15]
-      self.loading = false
-    }, 2000)
+    self.fetchData()
+    // this.timeRequest = moment().format('DD-MM-YYYY') + ' - ' + moment().format('DD-MM-YYYY')
   }
 }
 </script>
