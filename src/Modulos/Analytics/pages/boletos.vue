@@ -16,6 +16,9 @@
 
 <script>
 export default {
+  metaInfo: {
+    titleTemplate: '%s - Analytics Boleto'
+  },
   data() {
     return {
       CLIENT_ID: '1064016171890-33ska3ge53e03ikk4na1rjg6hqio6fbq.apps.googleusercontent.com',

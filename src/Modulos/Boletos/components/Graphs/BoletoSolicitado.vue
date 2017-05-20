@@ -2,16 +2,22 @@
   <div class="">
     <div class="panel panel-flat" v-loading.body="loading">
       <div class="panel-heading">
-        <h6 class="panel-title">Gráfico - Boletos Solicitados / Mês</h6>
-        <div class="heading-elements">
-          <form class="heading-form" action="#">
+        <div class="row">
+          <h6 class="panel-title col-lg-6">Gráfico - Boletos Solicitados / Mês</h6>
+          <div class="pull-right">
             <div class="form-group">
               <div class="input-group">
-                <span class="input-group-addon"><i class="icon-calendar22"></i></span>
+                <span class="input-group-addon">
+                  <i class="icon-calendar22"></i>
+                </span>
                 <input type="text" class="form-control daterange" v-model="timeRequest">
+                <span class="input-group-btn">
+                  <button @click="refreshData" class="btn btn-primary" type="button">Atualizar</button>
+                </span>
               </div>
             </div>
-          </form>
+          </div>
+
         </div>
       </div>
       <div class="panel-body">
@@ -22,27 +28,27 @@
 </template>
 
 <script>
+import { boletosSolicitados } from './../../../../services/config'
 export default {
   data () {
     return {
-      timeRequest: moment().startOf('month').format('DD/MM/YYYY') + ' - ' + moment().endOf('month').format('DD/MM/YYYY'),
-      // timeRequest: '',
+      timeRequest: moment().startOf('year').format('DD/MM/YYYY') + ' - ' + moment().endOf('month').format('DD/MM/YYYY'),
       loading: false,
       label: "",
       labels: [],
       data: []
     }
   },
-  watch: {
-    timeRequest(val) {
-      console.log(val)
-    }
-  },
   methods: {
+    refreshData() {
+      self = this
+      self.loading = true
+      setTimeout(function () {
+        self.fetchData()
+      }, 1000)
+    },
     fetchData() {
-      this.loading = true
-      this.axios.get('http://localhost:8081/api/v1/boletos-solicitados', { params: { data: this.timeRequest } }).then(response => {
-        console.log(response)
+      this.axios.get(boletosSolicitados, { params: { data: this.timeRequest } }).then(response => {
         this.labels = []
         this.data = []
         for (var i = 0; i < response.data.length; i++) {
@@ -51,6 +57,9 @@ export default {
           this.label = "Boletos Solicitados"
           this.loading = false
         }
+      }).catch(response => {
+        this.loading = false
+        console.log(response)
       })
     }
   },
@@ -66,8 +75,6 @@ export default {
         "toLabel": "Para",
         "customRangeLabel": "Customizado"
       },
-      startDate: moment().startOf('month').format('DD/MM/YYYY'),
-      endDate: moment().endOf('month').format('DD/MM/YYYY'),
       ranges: {
         'Hoje': [moment(), moment()],
         'Ontem': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -78,10 +85,11 @@ export default {
       }
     }).on("input change", function (e) {
         self.timeRequest = e.target.value
-        self.fetchData()
     })
-    self.fetchData()
-    // this.timeRequest = moment().format('DD-MM-YYYY') + ' - ' + moment().format('DD-MM-YYYY')
+    self.loading = true
+    setTimeout(function() {
+      self.fetchData()
+    }, 1000)
   }
 }
 </script>

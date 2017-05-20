@@ -178,7 +178,7 @@ var app = new Vue({
 axios.interceptors.response.use(function (response) {
   return response
 }, function (error) {
-  if (error.response.status === 401 || error.response.status === 400) {
+  if (error.response.status === 401) {
     console.log('Need to login again')
     app.$root.$children[0].isAuth = false
     Vue.auth.destroyToken()

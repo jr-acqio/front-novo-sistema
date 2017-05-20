@@ -41,3 +41,4 @@ export const boletosVersion = 'api/v1/'
 export const boletosDownloadUrl = boletosDownload
 export const boletosClienteUrl = boletosDomain + boletosVersion + 'boletos-cliente'
 export const boletosFranchisingUrl = boletosDomain + boletosVersion + 'boletos-franchising'
+export const boletosSolicitados = boletosDomain + boletosVersion + 'boletos-solicitados'
