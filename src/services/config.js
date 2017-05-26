@@ -27,6 +27,9 @@ export const getHeader = function () {
 }
 
 // Api acqio boletos
+
+export const conciliationBoletosUrl = apiDomain + 'api/boletos/conciliation'
+
 var boletosDomain
 var boletosDownload
 if (process.env.NODE_ENV !== 'development') {

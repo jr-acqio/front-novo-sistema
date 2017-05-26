@@ -32,6 +32,7 @@ import {
   AlertSuccess
 } from 'vform'
 import axios from 'axios'
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
 import VueEvents from 'vue-events'
 import VueRouter from 'vue-router'
 import VueAxios from 'vue-axios'
@@ -105,6 +106,14 @@ const routes = [
         name: 'boletos.franchising',
         meta: {
           forAuth: true, breadcrumb: { name: 'Boletos Franchising', icon: 'icon-barcode2' }
+        }
+      },
+      {
+        path: '/boletos/conciliation',
+        component: require('./Modulos/Boletos/pages/conciliation'),
+        name: 'boletos.conciliation',
+        meta: {
+          forAuth: true, breadcrumb: { name: 'Conciliação', icon: 'icon-barcode2' }
         }
       },
       {
@@ -184,8 +193,8 @@ axios.interceptors.response.use(function (response) {
     Vue.auth.destroyToken()
     router.push({name: 'home'})
     app.$root.$notify({
-      title: 'Erro',
-      message: 'Seção finalizada, para ter acesso realize seu login',
+      title: 'Acesso Negado!',
+      message: 'Para ter acesso realize seu login',
       type: 'error',
       duration: 5000
     })

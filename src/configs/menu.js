@@ -14,6 +14,12 @@ export default [
         icon: 'icon-barcode2',
         children: [
           {
+            name: 'Conciliação',
+            path_name: 'boletos.conciliation',
+            link: '/boletos/conciliation',
+            icon: 'icon-barcode2'
+          },
+          {
             name: 'Boletos Clientes',
             path_name: 'boletos.clientes',
             link: '/boletos/clientes',
