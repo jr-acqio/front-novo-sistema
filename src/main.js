@@ -93,12 +93,24 @@ const routes = [
     meta: { forAuth: true, breadcrumb: {name: 'Home', icon: 'icon-home2 position-left'} },
     children: [
       {
+        path: '/users',
+        component: require('./Modulos/Usuario/pages/index'),
+        name: 'users',
+        meta: { forAuth: true, breadcrumb: { name: 'Usuários', icon: '' } },
+        children: [
+          {
+            path: 'create',
+            component: require('./Modulos/Usuario/pages/create'),
+            name: 'users.create',
+            meta: { forAuth: true, breadcrumb: { name: 'Novo Usuário', icon: 'icon-user-plus' } }
+          }
+        ]
+      },
+      {
         path: '/boletos/clientes',
         component: require('./pages/admin/boletos/clientes'),
         name: 'boletos.clientes',
-        meta: {
-          forAuth: true, breadcrumb: { name: 'Boletos Cliente', icon: 'icon-barcode2' }
-        }
+        meta: { forAuth: true, breadcrumb: { name: 'Boletos Cliente', icon: 'icon-barcode2' } }
       },
       {
         path: '/boletos/franchising',

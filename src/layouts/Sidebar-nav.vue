@@ -101,6 +101,34 @@ export default{
 
 						</li>
 					</template>
+					<li class="navigation-header">
+						<span>Usuario</span> <i class="icon-menu" :title="Usuario"></i>
+					</li>
+					<li>
+						<a href="javascript:void(0)" class="has-ul"><i class="icon-tree5"></i> <span>Usuários</span></a>
+						<ul class="hidden-ul" style="display: none;">
+							<li>
+								<router-link to="/users"><i class="icon-users4"></i> Usuários</router-link>
+							</li>
+							<li>
+								<router-link to="/users/create"><i class="icon-user-plus"></i> Novo Usuário</router-link>
+							</li>
+							<!-- <li class="active">
+								<a href="#" class="has-ul"><i class="icon-firefox"></i> Second level with child</a>
+								<ul class="hidden-ul" style="display: block;">
+									<li><a href="#"><i class="icon-android"></i> Third level</a></li>
+									<li>
+										<a href="#" class="has-ul"><i class="icon-apple2"></i> Third level with child</a>
+										<ul class="hidden-ul">
+											<li><a href="#"><i class="icon-html5"></i> Fourth level</a></li>
+											<li><a href="#"><i class="icon-css3"></i> Fourth level</a></li>
+										</ul>
+									</li>
+									<li><a href="#"><i class="icon-windows"></i> Third level</a></li>
+								</ul>
+							</li> -->
+						</ul>
+					</li>
 					<!-- \Menu -->
 				</ul>
 			</div>

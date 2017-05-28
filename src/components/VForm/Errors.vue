@@ -3,7 +3,7 @@
     <button v-if="dismissible" type="button" class="close" aria-label="Close" @click="dismiss">
       <span aria-hidden="true">&times;</span>
     </button>
-    
+
     <div v-if="message" v-html="message"></div>
 
     <ul>
