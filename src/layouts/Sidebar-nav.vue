@@ -79,7 +79,7 @@ export default{
 						<router-link to="/home"><i class="icon-home2"></i> <span>Dashboard</span></router-link>
 					</li>
 					<li>
-						<a href="javascript:void(0)" class="has-ul"><i class="icon-tree5"></i> <span>Usuários</span></a>
+						<a href="javascript:void(0)" class="has-ul"><i class="icon-users4"></i> <span>Usuários</span></a>
 						<ul class="hidden-ul" style="display: none;">
 							<li>
 								<router-link to="/users"><i class="icon-users4"></i> Usuários</router-link>
