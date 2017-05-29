@@ -9,27 +9,24 @@ export default{
 		}
 	},
 	created() {
-		// console.log(this.menu)
-		// this.setAuthenticatedUser()
 		this.$nextTick(function () {
 			// $.getScript('/static/assets/js/core/app.js')
 		})
 	},
 	methods: {
-		active(val) {
-			let patt = new RegExp(val + "/")
-			if (this.$route.path === val || patt.test(this.$route.path)) {
-				return true
-			}
-			return false
-		},
-		activeChildren(val) {
-			// console.log(this.$route.path, val, this.$route.path === val)
-			if (this.$route.path === val) {
-				return true
-			}
-			return false
-		}
+		// active(val) {
+		// 	let patt = new RegExp(val + "/")
+		// 	if (this.$route.path === val || patt.test(this.$route.path)) {
+		// 		return true
+		// 	}
+		// 	return false
+		// },
+		// activeChildren(val) {
+		// 	if (this.$route.path === val) {
+		// 		return true
+		// 	}
+		// 	return false
+		// }
 	},
 	computed: {
 		...mapState({
@@ -75,34 +72,11 @@ export default{
 			<div class="category-content no-padding">
 				<ul class="navigation navigation-main navigation-accordion">
 
-					<!-- Menu -->
-					<template v-for="h in menu">
-						<li class="navigation-header">
-							<span>{{h.header}}</span> <i class="icon-menu" :title="h.header"></i>
-						</li>
-						<li :class="{ 'active' : active(m.link) }" v-for="m in h.navigations">
-
-							<template v-if="m.hasOwnProperty('children')">
-								<a :class="{ 'has-ul': m.hasOwnProperty('children') }">
-									<i :class="m.icon"></i> 	<span>{{m.name}}</span>
-								</a>
-								<ul v-if="m.hasOwnProperty('children')" class="">
-									<li v-for="child in m.children" :class="{ 'active' : activeChildren(child.link) }">
-										<router-link :to="{ name: child.path_name }">{{child.name}}</router-link>
-									</li>
-								</ul>
-							</template>
-							<template v-else>
-								<router-link :to="{ name: m.path_name }">
-									<i :class="m.icon"></i> 	<span>{{m.name}}</span>
-								</router-link>
-
-							</template>
-
-						</li>
-					</template>
 					<li class="navigation-header">
-						<span>Usuario</span> <i class="icon-menu" :title="Usuario"></i>
+						<span>Menu</span> <i title="" class="icon-menu" data-original-title="Menu"></i>
+					</li>
+					<li>
+						<router-link to="/home"><i class="icon-home2"></i> <span>Dashboard</span></router-link>
 					</li>
 					<li>
 						<a href="javascript:void(0)" class="has-ul"><i class="icon-tree5"></i> <span>Usuários</span></a>
@@ -114,28 +88,62 @@ export default{
 								<router-link to="/users/create"><i class="icon-user-plus"></i> Novo Usuário</router-link>
 							</li>
 							<!-- <li class="active">
-								<a href="#" class="has-ul"><i class="icon-firefox"></i> Second level with child</a>
-								<ul class="hidden-ul" style="display: block;">
-									<li><a href="#"><i class="icon-android"></i> Third level</a></li>
-									<li>
-										<a href="#" class="has-ul"><i class="icon-apple2"></i> Third level with child</a>
-										<ul class="hidden-ul">
-											<li><a href="#"><i class="icon-html5"></i> Fourth level</a></li>
-											<li><a href="#"><i class="icon-css3"></i> Fourth level</a></li>
-										</ul>
-									</li>
-									<li><a href="#"><i class="icon-windows"></i> Third level</a></li>
-								</ul>
-							</li> -->
+							<a href="#" class="has-ul"><i class="icon-firefox"></i> Second level with child</a>
+							<ul class="hidden-ul" style="display: block;">
+							<li><a href="#"><i class="icon-android"></i> Third level</a></li>
+							<li>
+							<a href="#" class="has-ul"><i class="icon-apple2"></i> Third level with child</a>
+							<ul class="hidden-ul">
+							<li><a href="#"><i class="icon-html5"></i> Fourth level</a></li>
+							<li><a href="#"><i class="icon-css3"></i> Fourth level</a></li>
 						</ul>
 					</li>
-					<!-- \Menu -->
+					<li><a href="#"><i class="icon-windows"></i> Third level</a></li>
 				</ul>
-			</div>
-		</div>
-		<!-- /main navigation -->
+			</li> -->
+		</ul>
+	</li>
 
-	</div>
+	<li>
+		<a href="javascript:void(0)" class="has-ul"><i class="icon-barcode2"></i> <span>Boletos</span></a>
+		<ul class="hidden-ul" style="display: none;">
+			<li>
+				<router-link to="/boletos/conciliation"><i class="icon-wallet"></i> Conciliar</router-link>
+			</li>
+			<li>
+				<router-link to="/boletos/clientes"><i class="icon-barcode2"></i> Boletos Clientes</router-link>
+			</li>
+			<li>
+				<router-link to="/boletos/franchising"><i class="icon-barcode2"></i> Boletos Franchising</router-link>
+			</li>
+		</ul>
+	</li>
+
+	<li class="navigation-header">
+		<span>Segurança</span> <i title="" class="icon-menu" data-original-title="Segurança"></i>
+	</li>
+	<li>
+		<router-link to="/security/profile"><i class="icon-user-lock"></i> <span>Meu Perfil</span></router-link>
+	</li>
+
+	<li class="navigation-header">
+		<span>Analytics</span> <i title="" class="icon-menu" data-original-title="Analytics"></i>
+	</li>
+	<li>
+		<a href="javascript:void(0)" class="has-ul"><i class="icon-statistics"></i> <span>Analytics</span></a>
+		<ul class="hidden-ul" style="display: none;">
+			<li>
+				<router-link to="/analytics/boletos"><i class="icon-barcode2"></i> Boletos</router-link>
+			</li>
+		</ul>
+	</li>
+	<!-- \Menu -->
+</ul>
+</div>
+</div>
+<!-- /main navigation -->
+
+</div>
 </div>
 <!-- /main sidebar -->
 </template>

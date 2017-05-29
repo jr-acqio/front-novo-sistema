@@ -165,7 +165,7 @@
     </el-dialog>
 
     <datatable-slot
-    title="Boletos - Clientes"
+    title="Boletos - Franchising"
     id="table1"
     v-loading.body="loading"
     url="http://localhost:8000/api/teste"

@@ -107,26 +107,34 @@ const routes = [
         ]
       },
       {
-        path: '/boletos/clientes',
-        component: require('./pages/admin/boletos/clientes'),
-        name: 'boletos.clientes',
-        meta: { forAuth: true, breadcrumb: { name: 'Boletos Cliente', icon: 'icon-barcode2' } }
-      },
-      {
-        path: '/boletos/franchising',
-        component: require('./pages/admin/boletos/franchising'),
-        name: 'boletos.franchising',
-        meta: {
-          forAuth: true, breadcrumb: { name: 'Boletos Franchising', icon: 'icon-barcode2' }
-        }
-      },
-      {
-        path: '/boletos/conciliation',
-        component: require('./Modulos/Boletos/pages/conciliation'),
-        name: 'boletos.conciliation',
-        meta: {
-          forAuth: true, breadcrumb: { name: 'Conciliação', icon: 'icon-barcode2' }
-        }
+        path: '/boletos',
+        component: require('./Modulos/Boletos/pages/index'),
+        name: 'boletos',
+        meta: { forAuth: true, breadcrumb: { name: 'Boletos', icon: '' } },
+        children: [
+          {
+            path: '/boletos/clientes',
+            component: require('./Modulos/Boletos/pages/clientes'),
+            name: 'boletos.clientes',
+            meta: { forAuth: true, breadcrumb: { name: 'Boletos Cliente', icon: 'icon-barcode2' } }
+          },
+          {
+            path: '/boletos/franchising',
+            component: require('./Modulos/Boletos/pages/franchising'),
+            name: 'boletos.franchising',
+            meta: {
+              forAuth: true, breadcrumb: { name: 'Boletos Franchising', icon: 'icon-barcode2' }
+            }
+          },
+          {
+            path: '/boletos/conciliation',
+            component: require('./Modulos/Boletos/pages/conciliation'),
+            name: 'boletos.conciliation',
+            meta: {
+              forAuth: true, breadcrumb: { name: 'Conciliação', icon: 'icon-barcode2' }
+            }
+          }
+        ]
       },
       {
         path: '/security/profile',

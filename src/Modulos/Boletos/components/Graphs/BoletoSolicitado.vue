@@ -3,7 +3,7 @@
     <div class="panel panel-flat" v-loading.body="loading">
       <div class="panel-heading">
         <div class="row">
-          <h6 class="panel-title col-lg-6">Gráfico - Boletos Solicitados / Mês</h6>
+          <h6 class="panel-title col-lg-6"><i class="icon-graph"></i> Gráfico - Boletos Solicitados / Mês</h6>
           <div class="pull-right">
             <div class="form-group">
               <div class="input-group">
