@@ -39,6 +39,7 @@
 
 <script>
 import { Form } from 'vform'
+import { userCreateUrl } from './../../../services/config'
 export default {
   name: 'create',
   metaInfo: {
@@ -66,7 +67,7 @@ export default {
     newUser() {
       this.loading = true
       let self = this
-      this.form.post('http://localhost:8000/api/user').then(response => {
+      this.form.post(userCreateUrl).then(response => {
         this.msg = response.data
         this.loading = false
         this.clearForm()

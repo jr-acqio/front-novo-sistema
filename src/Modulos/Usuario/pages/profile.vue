@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { userUrl, getHeader } from './../../../services/config'
+import { userUrl, getHeader, userCreateUrl } from './../../../services/config'
 import axios from 'axios'
 import Form from 'vform'
 export default {
@@ -121,7 +121,7 @@ export default {
     },
     updateProfile() {
       this.loadingButton = true
-      this.form.put('http://localhost:8000/api/user/' + this.user.id).then(response => {
+      this.form.put(userCreateUrl + '/' + this.user.id).then(response => {
         this.msg = response.data.msg
         window.localStorage.setItem('authUser', JSON.stringify(response.data.user))
         this.user = response.data.user

@@ -14,6 +14,9 @@ export const userUrl = apiDomain + 'api/me'
 export const forgotPassword = apiDomain + 'api/forgot-password'
 export const resetPassword = apiDomain + 'api/reset-password'
 
+// Rotas Usuário
+export const userCreateUrl = apiDomain + 'api/user'
+
 // Rotas de api
 export const userListUrl = apiDomain + version + 'users-list'
 
