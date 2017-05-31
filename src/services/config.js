@@ -28,7 +28,7 @@ export const getHeader = function () {
 
 // Api acqio boletos
 
-export const conciliationBoletosUrl = apiDomain + 'api/boletos/conciliation'
+export const conciliationBoletosUrl = apiDomain + 'api/conciliation'
 
 var boletosDomain
 var boletosDownload
