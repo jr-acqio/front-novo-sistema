@@ -3,7 +3,7 @@ var apiDomain
 if (process.env.NODE_ENV !== 'development') {
   apiDomain = 'https://dev.acqio.co/'
 } else {
-  apiDomain = 'http://localhost:8000/'
+  apiDomain = 'http://dev-local.com/'
 }
 
 const version = 'api/'
@@ -16,9 +16,10 @@ export const resetPassword = apiDomain + 'api/reset-password'
 
 // Rotas Usuário
 export const userCreateUrl = apiDomain + 'api/user'
-
+export const roleUrl = apiDomain + 'api/role'
+export const permissionUrl = apiDomain + 'api/permission'
 // Rotas de api
-export const userListUrl = apiDomain + version + 'users-list'
+export const userListUrl = apiDomain + version + 'user'
 
 export const getHeader = function () {
   const tokenData = localStorage.getItem('token')

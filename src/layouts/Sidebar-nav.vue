@@ -126,6 +126,18 @@ export default{
 		<router-link to="/security/profile"><i class="icon-user-lock"></i> <span>Meu Perfil</span></router-link>
 	</li>
 
+	<li>
+		<a href="javascript:void(0)" class="has-ul"><i class="icon-users4"></i> <span>Roles & Permissions</span></a>
+		<ul class="hidden-ul" style="display: none;">
+			<li>
+				<router-link to="/roles"><i class="icon-users4"></i> Roles</router-link>
+			</li>
+			<li>
+				<router-link to="/permissions"><i class="icon-key"></i> Permissions</router-link>
+			</li>
+		</ul>
+	</li>
+
 	<li class="navigation-header">
 		<span>Analytics</span> <i title="" class="icon-menu" data-original-title="Analytics"></i>
 	</li>

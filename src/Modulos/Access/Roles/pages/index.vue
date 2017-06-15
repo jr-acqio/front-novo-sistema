@@ -1,27 +1,29 @@
 <template>
   <div class="">
     <template v-if="$route.matched.length == 2">
-      <div class="pull-right">
+      <!-- <div class="pull-right">
         <div class="col-lg-12 form-group">
           <router-link to="/users/create" class="btn bg-blue btn-labeled heading-btn"><b><i class="icon-user-plus"></i></b> Criar Usuário</router-link>
         </div>
-      </div>
+      </div> -->
       <datatable-slot
-      title="Lista de Usuários"
+      title="Grupos de Usuário"
       id="table1"
       v-loading.body="loading"
       url="http://localhost:8000/api/teste"
       :headers="[
       { header: '#' },
       { header: 'Nome' },
-      { header: 'Email' },
+      { header: 'Nome de Exibição' },
+      { header: 'Descrição' },
       { header: 'Criado em' },
       { header: 'Ações' }
       ]">
       <tr v-for="(row, index) in rows">
         <td>{{ index + 1 }}</td>
         <td>{{ row.name }}</td>
-        <td>{{ row.email }}</td>
+        <td>{{ row.display_name }}</td>
+        <td>{{ row.description }}</td>
         <td>{{ row.created_at }}</td>
         <td sortable="false">
           <ul class="icons-list">
@@ -47,7 +49,7 @@
 </template>
 
 <script>
-import { userCreateUrl } from '../../../services/config'
+import { roleUrl } from '../../../../services/config'
 export default {
   metaInfo: {
     titleTemplate: '%s - Usuários'
@@ -58,7 +60,7 @@ export default {
     }
   },
   created() {
-    this.axios.get(userCreateUrl).then(response => {
+    this.axios.get(roleUrl).then(response => {
       console.log(response)
       this.rows = response.data
       setTimeout(function() {

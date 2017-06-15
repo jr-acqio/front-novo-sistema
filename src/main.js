@@ -137,6 +137,22 @@ const routes = [
         ]
       },
       {
+        path: '/permissions',
+        component: require('./Modulos/Access/Permissions/pages/index'),
+        name: 'permission',
+        meta: {
+          forAuth: true, breadcrumb: { name: 'Permissões', icon: '' }
+        }
+      },
+      {
+        path: '/roles',
+        component: require('./Modulos/Access/Roles/pages/index'),
+        name: 'roles',
+        meta: {
+          forAuth: true, breadcrumb: { name: 'Grupos', icon: '' }
+        }
+      },
+      {
         path: '/security/profile',
         component: require('./Modulos/Usuario/pages/profile'),
         name: 'security.profile',
