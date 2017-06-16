@@ -4,8 +4,8 @@ import {
   userListUrl
 } from './../../config'
 const state = {
-  authUser: null,
-  users: []
+  authUser: null
+  // users: []
 }
 
 const mutations = {

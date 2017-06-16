@@ -10,7 +10,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userStore: state => state.userStore
+      userStore: state => state.userStore,
+      accessStore: state => state.accessStore
     })
   },
   data() {

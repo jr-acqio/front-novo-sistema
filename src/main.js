@@ -23,7 +23,9 @@ import 'element-ui/lib/theme-default/index.css'
 
 import Vue from 'vue'
 import Auth from './packages/auth/Auth'
+import Acl from './packages/access/ACL'
 Vue.use(Auth)
+Vue.use(Acl)
 import {
   HasError,
   HasError4,

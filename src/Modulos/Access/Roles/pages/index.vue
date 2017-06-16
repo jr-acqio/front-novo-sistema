@@ -1,11 +1,51 @@
 <template>
   <div class="">
     <template v-if="$route.matched.length == 2">
-      <!-- <div class="pull-right">
-        <div class="col-lg-12 form-group">
-          <router-link to="/users/create" class="btn bg-blue btn-labeled heading-btn"><b><i class="icon-user-plus"></i></b> Criar Usuário</router-link>
+
+      <el-dialog v-if="dialogVisible" title="Criar novo Grupo de Usuários" v-model="dialogVisible" size="small" :before-close="handleClose">
+        <div class="row">
+          <form v-loading="loading" @submit.prevent="newGoup" @keydown="form.errors.clear($event.target.name)">
+            <alert-success :form="form" :message="msg"></alert-success>
+            <alert-errors :form="form" classe="alert bg-danger alert-styled-left" message=""></alert-errors>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="">Nome</label>
+                  <input type="text" class="form-control" v-model="form.name">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="">Nome de Exibição</label>
+                  <input type="text" class="form-control" v-model="form.display_name">
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <label for="">Descrição</label>
+                  <textarea class="form-control" rows="5" cols="80" v-model="form.description"></textarea>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <button type="submit" class="btn bg-blue btn-labeled heading-btn"><b><i class="icon-floppy-disk"></i></b> SALVAR</button>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
-      </div> -->
+
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">Fechar</el-button>
+          <!-- <el-button type="primary" @click="dialogVisible = false">Confirm</el-button> -->
+        </span>
+      </el-dialog>
+
+      <div class="pull-right">
+        <div class="col-lg-12 form-group">
+          <button type="button" class="btn bg-blue btn-labeled heading-btn" @click="openModal"><b><i class="icon-users4"></i></b> Criar Novo Grupo</button>
+        </div>
+      </div>
       <datatable-slot
       title="Grupos de Usuário"
       id="table1"
@@ -41,14 +81,15 @@
       </tr>
     </datatable-slot>
 
-    </template>
-    <template v-else>
-      <router-view></router-view>
-    </template>
-  </div>
+  </template>
+  <template v-else>
+    <router-view></router-view>
+  </template>
+</div>
 </template>
 
 <script>
+import { Form } from 'vform'
 import { roleUrl } from '../../../../services/config'
 export default {
   metaInfo: {
@@ -56,7 +97,31 @@ export default {
   },
   data() {
     return {
-        rows: []
+      form: new Form({
+        name: '',
+        display_name: '',
+        description: ''
+      }),
+      rows: [],
+      dialogVisible: false,
+      loading: false,
+      msg: ''
+    }
+  },
+  methods: {
+    openModal() {
+      this.dialogVisible = true
+    },
+    newGoup() {
+      this.loading = true
+      let self = this
+      this.form.post(roleUrl).then(response => {
+        this.msg = response.data
+        this.loading = false
+        // this.clearForm()
+      }).catch(response => {
+        this.loading = false
+      })
     }
   },
   created() {
@@ -65,7 +130,7 @@ export default {
       this.rows = response.data
       setTimeout(function() {
         self.dtHandle = $('#' + 'table1').DataTable()
-    }, 100)
+      }, 100)
     }).catch(error => {
       console.log(error)
     })

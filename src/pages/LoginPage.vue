@@ -60,9 +60,11 @@
                 self.$auth.setToken(response.data.access_token, response.data.expires_in + Date.now())
                 self.axios.get(userUrl, {headers: getHeader()})
                   .then(response => {
+                    // Carregar Niveis
                     window.localStorage.setItem('authUser', JSON.stringify(response.data))
-                    self.$root.$children[0].isAuth = true
                     self.$store.dispatch('setUserObject', response.data)
+                    self.$store.dispatch('getAccessList')
+                    self.$root.$children[0].isAuth = true
                     self.$router.push({name: 'dashboard'})
                   })
               }
@@ -119,7 +121,7 @@
               <div class="form-group">
                 <div class="row">
                   <!-- <div class="col-sm-12"> -->
-                    <vue-recaptcha :sitekey="key" @verify="onVerify" @expired="onExpired"></vue-recaptcha>
+                    <!-- <vue-recaptcha :sitekey="key" @verify="onVerify" @expired="onExpired"></vue-recaptcha> -->
                     <br>
                   <!-- </div> -->
                   <div class="col-sm-6">
@@ -136,9 +138,12 @@
               </div>
 
               <div class="form-group">
-                <button type="submit" data-style="expand-right" :disabled="form.busy || form.captcha == ''" class="btn bg-blue btn-block">
+                <button type="submit" data-style="expand-right" :disabled="form.busy" class="btn bg-blue btn-block">
                   <span v-html="msgButtonSubmit"></span>
                 </button>
+                <!-- <button type="submit" data-style="expand-right" :disabled="form.busy || form.captcha == ''" class="btn bg-blue btn-block">
+                  <span v-html="msgButtonSubmit"></span>
+                </button> -->
               </div>
 
             </div>
