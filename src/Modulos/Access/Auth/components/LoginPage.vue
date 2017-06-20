@@ -1,5 +1,5 @@
 <script>
-  import {loginUrl, getHeader, userUrl} from './../services/config'
+  import {loginUrl, getHeader, userUrl} from './../../../../services/config'
   import {mapState} from 'vuex'
   import { Form } from 'vform'
   import VueRecaptcha from 'vue-recaptcha'

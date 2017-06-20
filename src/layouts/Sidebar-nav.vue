@@ -1,13 +1,7 @@
 <script>
-import menu from './../configs/menu'
 import { getHeader } from './../services/config'
 import {mapState} from 'vuex'
 export default{
-	data() {
-		return {
-			menu: menu
-		}
-	},
 	created() {
 		this.$nextTick(function () {
 			// $.getScript('/static/assets/js/core/app.js')

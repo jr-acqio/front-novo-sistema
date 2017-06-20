@@ -38,7 +38,7 @@
 </template>
 
 <script>
-  import {resetPassword} from './../services/config'
+  import {resetPassword} from './../../../../services/config'
   export default {
     data () {
       return {

@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import {forgotPassword} from './../services/config'
+import {forgotPassword} from './../../../../services/config'
 export default {
   metaInfo: {
     titleTemplate: '%s - Recuperar Senha'

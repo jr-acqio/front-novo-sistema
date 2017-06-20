@@ -1,3 +1,20 @@
+import { sync } from 'vuex-router-sync'
+import Vue from 'vue'
+import ElementUI from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/en'
+import App from './App'
+
+/**
+* This is the Vuex store and it is
+* avaible to all your components
+*/
+import store from './store'
+
+/**
+* This is the Router
+*/
+import router from './router'
+
 // Requires
 require('./bootstrap.js')
 require('bootstrap-sass')
@@ -18,10 +35,8 @@ window.moment = require('moment')
 moment.locale('pt_br')
 
 // Imports
-import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
-import Vue from 'vue'
 import Auth from './packages/auth/Auth'
 import Acl from './packages/access/ACL'
 Vue.use(Auth)
@@ -36,26 +51,22 @@ import {
 import axios from 'axios'
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
 import VueEvents from 'vue-events'
-import VueRouter from 'vue-router'
+// import VueRouter from 'vue-router'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 // import VueResource from 'vue-resource'
 import Meta from 'vue-meta'
-import store from './store'
-import { sync } from 'vuex-router-sync'
 
 import Multiselect from 'vue-multiselect'
 // import VueSocketio from 'vue-socket.io'
-import App from './App'
-import ForgotPassword from './pages/ForgotPassword'
-import ResetPassword from './pages/ResetPassword'
+// import ForgotPassword from './pages/ForgotPassword'
+// import ResetPassword from './pages/ResetPassword'
 import Logger from './plugins/Logger'
 import Clients from './components/Passport/Clients'
 import configureDataTables from './configureDataTables'
 
 // Components Layouts
 Vue.component('dashboard', require('./pages/admin/dashboard'))
-Vue.component('login-page', require('./pages/LoginPage'))
 Vue.component('child', require('./components/Child'))
 Vue.component('loading', require('./components/Loading'))
 Vue.component('multiselect', Multiselect)
@@ -74,7 +85,7 @@ Vue.component(AlertSuccess.name, AlertSuccess)
 configureDataTables($)
 
 // Installations
-Vue.use(VueRouter)
+// Vue.use(VueRouter)
 // Vue.use(VueResource)
 Vue.use(Logger, {loggin: true})
 Vue.use(Meta)
@@ -82,137 +93,137 @@ Vue.use(VueEvents)
 Vue.use(VueBreadcrumbs)
 Vue.use(ElementUI)
 // Vue.use(VueSocketio, 'http://localhost:8890')
-const routes = [
-  { path: '/',
-    component: require('./pages/LoginPage'),
-    name: 'home',
-    meta: { forVisitors: true }
-  },
-  // Dashboard
-  { path: '/home',
-    component: require('./pages/admin/dashboard'),
-    name: 'dashboard',
-    meta: { forAuth: true, breadcrumb: {name: 'Home', icon: 'icon-home2 position-left'} },
-    children: [
-      {
-        path: '/users',
-        component: require('./Modulos/Usuario/pages/index'),
-        name: 'users',
-        meta: { forAuth: true, breadcrumb: { name: 'Usuários', icon: '' } },
-        children: [
-          {
-            path: 'create',
-            component: require('./Modulos/Usuario/pages/create'),
-            name: 'users.create',
-            meta: { forAuth: true, breadcrumb: { name: 'Novo Usuário', icon: 'icon-user-plus' } }
-          }
-        ]
-      },
-      {
-        path: '/boletos',
-        component: require('./Modulos/Boletos/pages/index'),
-        name: 'boletos',
-        meta: { forAuth: true, breadcrumb: { name: 'Boletos', icon: '' } },
-        children: [
-          {
-            path: '/boletos/clientes',
-            component: require('./Modulos/Boletos/pages/clientes'),
-            name: 'boletos.clientes',
-            meta: { forAuth: true, breadcrumb: { name: 'Boletos Cliente', icon: 'icon-barcode2' } }
-          },
-          {
-            path: '/boletos/franchising',
-            component: require('./Modulos/Boletos/pages/franchising'),
-            name: 'boletos.franchising',
-            meta: {
-              forAuth: true, breadcrumb: { name: 'Boletos Franchising', icon: 'icon-barcode2' }
-            }
-          },
-          {
-            path: '/boletos/conciliation',
-            component: require('./Modulos/Boletos/pages/conciliation'),
-            name: 'boletos.conciliation',
-            meta: {
-              forAuth: true, breadcrumb: { name: 'Conciliação', icon: 'icon-barcode2' }
-            }
-          }
-        ]
-      },
-      {
-        path: '/permissions',
-        component: require('./Modulos/Access/Permissions/pages/index'),
-        name: 'permission',
-        meta: {
-          forAuth: true, breadcrumb: { name: 'Permissões', icon: '' }
-        }
-      },
-      {
-        path: '/roles',
-        component: require('./Modulos/Access/Roles/pages/index'),
-        name: 'roles',
-        meta: {
-          forAuth: true, breadcrumb: { name: 'Grupos', icon: '' }
-        }
-      },
-      {
-        path: '/security/profile',
-        component: require('./Modulos/Usuario/pages/profile'),
-        name: 'security.profile',
-        meta: {
-          forAuth: true, breadcrumb: { name: 'Meu Perfil', icon: '' }
-        }
-      },
-      {
-        path: '/analytics/boletos',
-        component: require('./Modulos/Analytics/pages/boletos'),
-        name: 'analytics.boletos',
-        meta: {
-          forAuth: true, breadcrumb: { name: 'Analytics Boleto', icon: '' }
-        }
-      }
-    ]
-  },
-  // Some others routes
-  { path: '/forgot-password',
-    component: ForgotPassword,
-    name: 'forgot-password',
-    meta: { forVisitors: true }
-  },
-  {
-    path: '/reset-password/:token',
-    component: ResetPassword,
-    name: 'reset-password',
-    meta: { forVisitors: true }
-  },
-  {path: '*',
-    redirect: to => {
-      window.history.back()
-    }
-  }
-]
-
-const router = new VueRouter({
-  // mode: 'history',
-  routes
-})
-sync(store, router)
-router.beforeEach((to, from, next) => {
-  // console.log('Autenticado ?', Vue.auth.isAuthenticated())
-  if (to.matched.some(record => record.meta.forVisitors)) {
-    if (Vue.auth.isAuthenticated()) {
-      next({ name: 'dashboard' })
-    } else {
-      next()
-    }
-  } else if (to.matched.some(record => record.meta.forAuth)) {
-    if (!Vue.auth.isAuthenticated() || !localStorage.getItem('authUser')) {
-      Vue.auth.destroyToken()
-      next({ name: 'home' })
-    } else {
-      next()
-    }
-  }
-})
+// const routes = [
+//   { path: '/',
+//     component: require('./pages/LoginPage'),
+//     name: 'home',
+//     meta: { forVisitors: true }
+//   },
+//   // Dashboard
+//   { path: '/home',
+//     component: require('./pages/admin/dashboard'),
+//     name: 'dashboard',
+//     meta: { forAuth: true, breadcrumb: {name: 'Home', icon: 'icon-home2 position-left'} },
+//     children: [
+//       {
+//         path: '/users',
+//         component: require('./Modulos/Usuario/pages/index'),
+//         name: 'users',
+//         meta: { forAuth: true, breadcrumb: { name: 'Usuários', icon: '' } },
+//         children: [
+//           {
+//             path: 'create',
+//             component: require('./Modulos/Usuario/pages/create'),
+//             name: 'users.create',
+//             meta: { forAuth: true, breadcrumb: { name: 'Novo Usuário', icon: 'icon-user-plus' } }
+//           }
+//         ]
+//       },
+//       {
+//         path: '/boletos',
+//         component: require('./Modulos/Boletos/pages/index'),
+//         name: 'boletos',
+//         meta: { forAuth: true, breadcrumb: { name: 'Boletos', icon: '' } },
+//         children: [
+//           {
+//             path: '/boletos/clientes',
+//             component: require('./Modulos/Boletos/pages/clientes'),
+//             name: 'boletos.clientes',
+//             meta: { forAuth: true, breadcrumb: { name: 'Boletos Cliente', icon: 'icon-barcode2' } }
+//           },
+//           {
+//             path: '/boletos/franchising',
+//             component: require('./Modulos/Boletos/pages/franchising'),
+//             name: 'boletos.franchising',
+//             meta: {
+//               forAuth: true, breadcrumb: { name: 'Boletos Franchising', icon: 'icon-barcode2' }
+//             }
+//           },
+//           {
+//             path: '/boletos/conciliation',
+//             component: require('./Modulos/Boletos/pages/conciliation'),
+//             name: 'boletos.conciliation',
+//             meta: {
+//               forAuth: true, breadcrumb: { name: 'Conciliação', icon: 'icon-barcode2' }
+//             }
+//           }
+//         ]
+//       },
+//       {
+//         path: '/permissions',
+//         component: require('./Modulos/Access/Permissions/pages/index'),
+//         name: 'permission',
+//         meta: {
+//           forAuth: true, breadcrumb: { name: 'Permissões', icon: '' }
+//         }
+//       },
+//       {
+//         path: '/roles',
+//         component: require('./Modulos/Access/Roles/pages/index'),
+//         name: 'roles',
+//         meta: {
+//           forAuth: true, breadcrumb: { name: 'Grupos', icon: '' }
+//         }
+//       },
+//       {
+//         path: '/security/profile',
+//         component: require('./Modulos/Usuario/pages/profile'),
+//         name: 'security.profile',
+//         meta: {
+//           forAuth: true, breadcrumb: { name: 'Meu Perfil', icon: '' }
+//         }
+//       },
+//       {
+//         path: '/analytics/boletos',
+//         component: require('./Modulos/Analytics/pages/boletos'),
+//         name: 'analytics.boletos',
+//         meta: {
+//           forAuth: true, breadcrumb: { name: 'Analytics Boleto', icon: '' }
+//         }
+//       }
+//     ]
+//   },
+//   // Some others routes
+//   { path: '/forgot-password',
+//     component: ForgotPassword,
+//     name: 'forgot-password',
+//     meta: { forVisitors: true }
+//   },
+//   {
+//     path: '/reset-password/:token',
+//     component: ResetPassword,
+//     name: 'reset-password',
+//     meta: { forVisitors: true }
+//   },
+//   {path: '*',
+//     redirect: to => {
+//       window.history.back()
+//     }
+//   }
+// ]
+//
+// const router = new VueRouter({
+//   // mode: 'history',
+//   routes
+// })
+// sync(store, router)
+// router.beforeEach((to, from, next) => {
+//   // console.log('Autenticado ?', Vue.auth.isAuthenticated())
+//   if (to.matched.some(record => record.meta.forVisitors)) {
+//     if (Vue.auth.isAuthenticated()) {
+//       next({ name: 'dashboard' })
+//     } else {
+//       next()
+//     }
+//   } else if (to.matched.some(record => record.meta.forAuth)) {
+//     if (!Vue.auth.isAuthenticated() || !localStorage.getItem('authUser')) {
+//       Vue.auth.destroyToken()
+//       next({ name: 'home' })
+//     } else {
+//       next()
+//     }
+//   }
+// })
 
 var app = new Vue({
   el: '#app',
