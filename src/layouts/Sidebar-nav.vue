@@ -117,18 +117,18 @@ export default{
 		<span>Segurança</span> <i title="" class="icon-menu" data-original-title="Segurança"></i>
 	</li>
 	<li>
-		<router-link to="/security/profile"><i class="icon-user-lock"></i> <span>Meu Perfil</span></router-link>
+		<!-- <router-link to="/security/profile"><i class="icon-user-lock"></i> <span>Meu Perfil</span></router-link> -->
 	</li>
 
 	<li>
 		<a href="javascript:void(0)" class="has-ul"><i class="icon-users4"></i> <span>Roles & Permissions</span></a>
 		<ul class="hidden-ul" style="display: none;">
-			<li>
+			<!-- <li>
 				<router-link to="/roles"><i class="icon-users4"></i> Roles</router-link>
 			</li>
 			<li>
 				<router-link to="/permissions"><i class="icon-key"></i> Permissions</router-link>
-			</li>
+			</li> -->
 		</ul>
 	</li>
 
@@ -138,9 +138,9 @@ export default{
 	<li>
 		<a href="javascript:void(0)" class="has-ul"><i class="icon-statistics"></i> <span>Analytics</span></a>
 		<ul class="hidden-ul" style="display: none;">
-			<li>
-				<router-link to="/analytics/boletos"><i class="icon-barcode2"></i> Boletos</router-link>
-			</li>
+				<!-- <li>
+					<router-link to="/analytics/boletos"><i class="icon-barcode2"></i> Boletos</router-link>
+				</li> -->
 		</ul>
 	</li>
 	<!-- \Menu -->

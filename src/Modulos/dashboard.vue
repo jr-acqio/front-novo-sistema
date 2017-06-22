@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import GraphBoletoSolicitado from './../../Modulos/Boletos/components/Graphs/BoletoSolicitado'
+import GraphBoletoSolicitado from '../Modulos/Boletos/components/Graphs/BoletoSolicitado'
 export default {
 	metaInfo: {
 		titleTemplate: '%s - Dashboard'

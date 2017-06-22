@@ -1,6 +1,6 @@
 <script>
   import {loginUrl, getHeader, userUrl} from './../../../../services/config'
-  import {mapState} from 'vuex'
+  import {mapState, mapActions} from 'vuex'
   import { Form } from 'vform'
   import VueRecaptcha from 'vue-recaptcha'
   export default {
@@ -36,6 +36,7 @@
       }
     },
     methods: {
+      ...mapActions(['attemptLogin', 'setMessage']),
       onVerify(resp) {
         this.form.captcha = resp
       },
@@ -58,14 +59,14 @@
             .then(response => {
               if (response.status === 200) {
                 self.$auth.setToken(response.data.access_token, response.data.expires_in + Date.now())
-                self.axios.get(userUrl, {headers: getHeader()})
+                self.$http.get(userUrl, {headers: getHeader()})
                   .then(response => {
                     // Carregar Niveis
                     window.localStorage.setItem('authUser', JSON.stringify(response.data))
                     self.$store.dispatch('setUserObject', response.data)
                     self.$store.dispatch('getAccessList')
                     self.$root.$children[0].isAuth = true
-                    self.$router.push({name: 'dashboard'})
+                    self.$router.push({name: 'home'})
                   })
               }
             })

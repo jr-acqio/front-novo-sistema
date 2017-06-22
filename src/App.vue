@@ -9,10 +9,10 @@ export default {
     // VsFooter
   },
   computed: {
-    ...mapState({
-      userStore: state => state.userStore,
-      accessStore: state => state.accessStore
-    })
+    // ...mapState({
+    //   // userStore: state => state.userStore,
+    //   // accessStore: state => state.accessStore
+    // })
   },
   data() {
     return {

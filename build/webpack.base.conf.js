@@ -19,6 +19,8 @@ module.exports = {
     alias: {
       'vue': 'vue/dist/vue',
       'src': path.resolve(__dirname, '../src'),
+      'plugins': path.resolve(__dirname, '../src/plugins'),
+      'utils': path.resolve(__dirname, '../src/utils'),
       'assets': path.resolve(__dirname, '../src/assets'),
       'components': path.resolve(__dirname, '../src/components')
     }
@@ -27,6 +29,10 @@ module.exports = {
     fallback: [path.join(__dirname, '../node_modules')]
   },
   module: {
+    noParse: [
+      new RegExp('node_modules/localforage/dist/localforage.js'),
+      /[\/\\]node_modules[\/\\]localforage[\/\\]dist[\/\\]localforage\.js$/,
+    ],
     preLoaders: [
       {
         test: /\.vue$/,

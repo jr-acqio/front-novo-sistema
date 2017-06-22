@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { http } from 'plugins/http'
 import {
   getHeader,
   roleUrl
@@ -15,7 +16,7 @@ const mutations = {
 
 const actions = {
   getAccessList: ({commit}) => {
-    return Vue.axios.get(roleUrl, {headers: getHeader()})
+    return http.get(roleUrl, {headers: getHeader()})
       .then(response => {
         if (response.status === 200) {
           // console.log(response.data)

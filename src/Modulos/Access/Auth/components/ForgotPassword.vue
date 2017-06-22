@@ -29,7 +29,7 @@
 
                 <button type="submit" class="btn bg-blue btn-block"><b>Reset password</b> <i class="icon-arrow-right14 position-right"></i></button>
 
-                <router-link :to="{ name: 'home' }" class="btn btn-default btn-block">
+                <router-link :to="{ name: 'auth.signin' }" class="btn btn-default btn-block">
                   <b>Voltar</b>
                 </router-link>
               </div>
