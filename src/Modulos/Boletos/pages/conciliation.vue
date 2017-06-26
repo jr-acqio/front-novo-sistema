@@ -5,9 +5,11 @@
         Conciliação
       </div>
       <div class="panel-body">
-        <!-- <div class="form-group" v-if="submitForm">
+        <div class="form-group">
+          <!-- <el-progress :percentage="70" :stroke-width="22"></el-progress> -->
+          <!-- <el-progress :percentage="50" :stroke-width="22" status="success"></el-progress> -->
           <el-progress :text-inside="true" :stroke-width="22" status="info" :percentage="progress"></el-progress>
-        </div> -->
+        </div>
         <form @keydown="form.errors.clear($event.target.name)" enctype="multipart/form-data">
           <div v-if="msg" class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
     				<button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
@@ -56,6 +58,8 @@
 import { Form } from 'vform'
 import accounting from 'accounting'
 import { getHeader, conciliationBoletosUrl } from './../../../services/config'
+import { http } from 'plugins/http'
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -64,9 +68,9 @@ export default {
       }),
       msg: '',
       info: '',
-      loading: false
-      // progress: 0,
-      // submitForm: false
+      loading: false,
+      progress: 0,
+      submitForm: false
     }
   },
   methods: {
@@ -78,10 +82,20 @@ export default {
       this.form.file = e.target.files[0]
     },
     submit() {
-      this.loading = true
-      // this.submitForm = true
       let self = this
-      this.form.post(conciliationBoletosUrl).then(response => {
+      this.loading = true
+      this.progress = 0
+      var data = new FormData();
+      data.append('file', this.form.file)
+      var config = {
+        onUploadProgress: function(progressEvent) {
+          var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          self.progress = percentCompleted
+        }
+      }
+
+      console.log(data)
+      axios.post(conciliationBoletosUrl, data, config).then(response => {
         console.log(response)
         this.msg = response.data.msg
         this.info = response.data.info
@@ -89,7 +103,8 @@ export default {
         this.loading = false
       }).catch(error => {
         this.loading = false
-        console.log(error)
+        console.log(error.response)
+        this.form.errors.set(error.response.data)
       })
     }
   }

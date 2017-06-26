@@ -27,7 +27,7 @@ const children = [
 
 export default [
   {
-    // children,
+    children,
     name: 'boleto.index',
     path: '/boletos',
     component: HomeBoleto,

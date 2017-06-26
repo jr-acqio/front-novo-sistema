@@ -8,14 +8,13 @@ import * as services from '../services'
 export const attemptLogin = ({ dispatch }, payload) =>
     services.postLogin(payload)
     .then(({ token, user }) => {
-      dispatch('setUser', user.data)
+      dispatch('setUser', user)
       dispatch('setToken', token)
-
       return user // keep promise chain
     })
 
 export const logout = ({ dispatch }) => {
-  services.revokeToken()
+  // services.revokeToken()
   // call actions
   return Promise.all([
     dispatch('setToken', null),
@@ -25,6 +24,7 @@ export const logout = ({ dispatch }) => {
 
 export const setUser = ({ commit }, user) => {
   // Commit the mutations
+  console.log("SET USER", user)
   commit(TYPES.SET_USER, user)
 
   Promise.resolve(user) // keep promise chain
@@ -45,7 +45,6 @@ export const checkUserToken = ({ dispatch, state }) => {
   if (!isEmpty(state.token)) {
     return Promise.resolve(state.token)
   }
-
   /**
    * Token does not exist yet
    * - Recover it from localstorage
