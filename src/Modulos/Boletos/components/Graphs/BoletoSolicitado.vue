@@ -29,6 +29,7 @@
 
 <script>
 import { boletosSolicitados } from './../../../../services/config'
+import { http } from 'plugins/http'
 export default {
   data () {
     return {
@@ -48,7 +49,7 @@ export default {
       }, 1000)
     },
     fetchData() {
-      this.axios.get(boletosSolicitados, { params: { data: this.timeRequest } }).then(response => {
+      http.get(boletosSolicitados, { params: { data: this.timeRequest } }).then(response => {
         this.labels = []
         this.data = []
         for (var i = 0; i < response.data.length; i++) {

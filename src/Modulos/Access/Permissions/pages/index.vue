@@ -50,6 +50,7 @@
 
 <script>
 import { permissionUrl } from '../../../../services/config'
+import {http} from 'plugins/http'
 export default {
   metaInfo: {
     titleTemplate: '%s - Usuários'
@@ -60,7 +61,7 @@ export default {
     }
   },
   created() {
-    this.axios.get(permissionUrl).then(response => {
+    http.get(permissionUrl).then(response => {
       console.log(response)
       this.rows = response.data
       setTimeout(function() {

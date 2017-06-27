@@ -1,5 +1,5 @@
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
 import { getHeader } from './services/config'
 export default {
   metaInfo: {
@@ -13,6 +13,10 @@ export default {
     //   // userStore: state => state.userStore,
     //   // accessStore: state => state.accessStore
     // })
+    ...mapGetters(['isLogged']),
+    ...mapState({
+      user: state => state.Auth.user
+    })
   },
   data() {
     return {
@@ -24,10 +28,10 @@ export default {
   },
   created () {
     this.isAuth = this.$auth.isAuthenticated()
-    const userObj = JSON.parse(window.localStorage.getItem('authUser'))
-    if (userObj) {
-      this.$store.dispatch('setUserObject', userObj)
-    }
+    // const userObj = JSON.parse(window.localStorage.getItem('authUser'))
+    // if (userObj) {
+    //   this.$store.dispatch('setUserObject', userObj)
+    // }
     // Loading
     // this.$root.$loading = this
   },
@@ -37,10 +41,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['logout']),
     handleLogout () {
-      this.isAuth = false
-      this.$auth.destroyToken()
-      this.$router.push({name: 'home'})
+      this.logout()      // this.isAuth = false
+      // this.$auth.destroyToken()
+      // this.$router.push({name: 'home'})
     }
   }
 }
@@ -49,9 +54,9 @@ export default {
 <template>
   <div>
     <loading ref="loading"></loading>
-
+    
     <!-- Main navbar -->
-    <div v-if="isAuth" class="navbar navbar-inverse">
+    <div v-if="isLogged" class="navbar navbar-inverse">
       <div class="navbar-header">
         <router-link :to="{ name: 'home' }" style="padding: 7px !important;" :class="{ 'navbar-brand' : true }">
           <img src="/static/assets/images/acqio-login.png" style="height: 30px;" alt="" class="img-responsive">
@@ -75,7 +80,7 @@ export default {
           <li class="dropdown dropdown-user">
             <a class="dropdown-toggle" data-toggle="dropdown">
               <img src="/static/assets/images/demo/users/face0.jpg" alt="">
-              <span>{{userStore.authUser.name}}</span>
+              <span>{{user.name}}</span>
               <i class="caret"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-right">
@@ -88,7 +93,7 @@ export default {
     <!-- /main navbar -->
 
 
-    <template v-if="!isAuth">
+    <template v-if="!isLogged">
       <child></child>
     </template>
 

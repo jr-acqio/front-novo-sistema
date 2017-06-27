@@ -19,16 +19,16 @@
       })
     },
     computed: {
-      ...mapState({
-        userStore: state => state.userStore
-      })
+      // ...mapState({
+      //   userStore: state => state.userStore
+      // })
     },
     data () {
       return {
         form: new Form({
           captcha: '',
-          email: '',
-          password: ''
+          email: 'joselito.junior@esfera5.com.br',
+          password: 'password'
         }),
         key: '6LcOVB8UAAAAAFuiPdmlj_IKgmqYVIfO7gfHUPs3',
         msgButtonSubmit: 'Login <i class="icon-arrow-right14 position-right"></i>',
@@ -53,26 +53,25 @@
         this.loading = true
         this.msgButtonSubmit = 'Aguarde...  <i class="el-icon-loading"></i>'
         var self = this
-        setTimeout(function() {
-          const authUser = {}
-          self.form.post(loginUrl)
-            .then(response => {
-              if (response.status === 200) {
-                self.$auth.setToken(response.data.access_token, response.data.expires_in + Date.now())
-                self.$http.get(userUrl, {headers: getHeader()})
-                  .then(response => {
-                    // Carregar Niveis
-                    window.localStorage.setItem('authUser', JSON.stringify(response.data))
-                    self.$store.dispatch('setUserObject', response.data)
-                    self.$store.dispatch('getAccessList')
-                    self.$root.$children[0].isAuth = true
-                    self.$router.push({name: 'home'})
-                  })
-              }
-            })
-            self.loading = false
-            self.msgButtonSubmit = 'Login <i class="icon-arrow-right14 position-right"></i>'
-        }, 1000)
+        const { email, password } = this.form // http://wesbos.com/destructuring-objects/
+        this.attemptLogin({ email, password }) // this is a Vuex action
+          .then((response) => {
+            // console.log("Deu SUCESSO!", response)
+            this.setMessage({ type: 'error', message: [] }) // this is a Vuex action
+            this.$router.push('/home')
+            // this.$router.push({ name: 'home' })
+          }, (error) => {
+              // console.log("Deu FALHA!", error)
+              this.form.errors.set(error.response.data)
+              this.loading = false
+              this.msgButtonSubmit = 'Login <i class="icon-arrow-right14 position-right"></i>'
+          })
+          // .catch(error => {
+          //   console.log("Deu FALHA!", JSON.parse(error))
+          //   this.form.errors.set(error.response.data)
+          //   this.loading = false
+          //   this.msgButtonSubmit = 'Login <i class="icon-arrow-right14 position-right"></i>'
+          // })
       }
     }
   }

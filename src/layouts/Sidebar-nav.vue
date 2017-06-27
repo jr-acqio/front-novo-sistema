@@ -8,23 +8,10 @@ export default{
 		})
 	},
 	methods: {
-		// active(val) {
-		// 	let patt = new RegExp(val + "/")
-		// 	if (this.$route.path === val || patt.test(this.$route.path)) {
-		// 		return true
-		// 	}
-		// 	return false
-		// },
-		// activeChildren(val) {
-		// 	if (this.$route.path === val) {
-		// 		return true
-		// 	}
-		// 	return false
-		// }
 	},
 	computed: {
 		...mapState({
-			userStore: state => state.userStore
+			user: state => state.Auth.user
 		})
 	}
 }
@@ -42,7 +29,7 @@ export default{
 					<div class="media">
 						<a href="#" class="media-left"><img src="/static/assets/images/demo/users/face0.jpg" class="img-circle img-sm" alt=""></a>
 						<div class="media-body">
-							<span class="media-heading text-semibold">{{userStore.authUser.name}}</span>
+							<span class="media-heading text-semibold">{{user.name}}</span>
 							<!-- <div class="text-size-mini text-muted">
 							<i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA
 						</div> -->
@@ -117,18 +104,18 @@ export default{
 		<span>Segurança</span> <i title="" class="icon-menu" data-original-title="Segurança"></i>
 	</li>
 	<li>
-		<!-- <router-link to="/security/profile"><i class="icon-user-lock"></i> <span>Meu Perfil</span></router-link> -->
+		<router-link to="/security/profile"><i class="icon-user-lock"></i> <span>Meu Perfil</span></router-link>
 	</li>
 
 	<li>
 		<a href="javascript:void(0)" class="has-ul"><i class="icon-users4"></i> <span>Roles & Permissions</span></a>
 		<ul class="hidden-ul" style="display: none;">
-			<!-- <li>
+			<li>
 				<router-link to="/roles"><i class="icon-users4"></i> Roles</router-link>
 			</li>
 			<li>
 				<router-link to="/permissions"><i class="icon-key"></i> Permissions</router-link>
-			</li> -->
+			</li>
 		</ul>
 	</li>
 
@@ -138,9 +125,9 @@ export default{
 	<li>
 		<a href="javascript:void(0)" class="has-ul"><i class="icon-statistics"></i> <span>Analytics</span></a>
 		<ul class="hidden-ul" style="display: none;">
-				<!-- <li>
+				<li>
 					<router-link to="/analytics/boletos"><i class="icon-barcode2"></i> Boletos</router-link>
-				</li> -->
+				</li>
 		</ul>
 	</li>
 	<!-- \Menu -->
