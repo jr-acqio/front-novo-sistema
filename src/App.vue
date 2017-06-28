@@ -20,20 +20,12 @@ export default {
   },
   data() {
     return {
-      isAuth: null
     }
   },
   mounted () {
     this.$loading = this.$refs.loading
   },
   created () {
-    this.isAuth = this.$auth.isAuthenticated()
-    // const userObj = JSON.parse(window.localStorage.getItem('authUser'))
-    // if (userObj) {
-    //   this.$store.dispatch('setUserObject', userObj)
-    // }
-    // Loading
-    // this.$root.$loading = this
   },
   sockets: {
     connect () {
@@ -54,7 +46,7 @@ export default {
 <template>
   <div>
     <loading ref="loading"></loading>
-    
+
     <!-- Main navbar -->
     <div v-if="isLogged" class="navbar navbar-inverse">
       <div class="navbar-header">

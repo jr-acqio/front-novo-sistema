@@ -82,8 +82,8 @@
 
 <script>
 import { userUrl, getHeader, userCreateUrl } from './../../../services/config'
-import axios from 'axios'
 import Form from 'vform'
+import { http } from 'plugins/http'
 export default {
   metaInfo: {
     titleTemplate: '%s - Meu Perfil'
@@ -138,7 +138,7 @@ export default {
   created() {
     let self = this
     setTimeout(function() {
-      self.$http.get(userUrl, { headers: getHeader() }).then(response => {
+      http.get(userUrl).then(response => {
         self.user = response.data
         self.form.name = self.user.name
         self.form.email = self.user.email

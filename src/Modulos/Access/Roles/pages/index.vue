@@ -91,6 +91,7 @@
 <script>
 import { Form } from 'vform'
 import { roleUrl } from '../../../../services/config'
+import { http } from 'plugins/http'
 export default {
   metaInfo: {
     titleTemplate: '%s - Usuários'
@@ -116,7 +117,7 @@ export default {
       this.loading = true
       let self = this
       this.form.post(roleUrl).then(response => {
-        this.msg = response.data
+        this.msg = 'Papel ' + response.data + ' criado com sucesso!'
         this.loading = false
         // this.clearForm()
       }).catch(response => {
@@ -125,7 +126,7 @@ export default {
     }
   },
   created() {
-    this.axios.get(roleUrl).then(response => {
+    http.get(roleUrl).then(response => {
       console.log(response)
       this.rows = response.data
       setTimeout(function() {

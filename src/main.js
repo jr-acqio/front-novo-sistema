@@ -37,9 +37,7 @@ sync(store, router) // https://github.com/vuejs/vuex-router-sync/tree/next
 require('./includes')
 
 var VueBreadcrumbs = require('vue2-breadcrumbs')
-import Auth from './packages/auth/Auth'
 import Acl from './packages/access/ACL'
-Vue.use(Auth)
 Vue.use(Acl)
 import {
   HasError,

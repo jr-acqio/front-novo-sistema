@@ -7,12 +7,11 @@ Vue.use(Router)
 const NotFound = {
   path: '*',
   redirect: to => {
-    console.log("ROTA N EXISTE", to)
     window.history.back()
   }
 }
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_operator
-const routes = [...app]
+const routes = [...app, NotFound]
 console.log(routes)
 
 const router = new Router({

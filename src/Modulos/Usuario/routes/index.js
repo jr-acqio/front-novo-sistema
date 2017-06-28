@@ -6,6 +6,12 @@ const children = [
     component: Create,
     name: 'user.create',
     meta: { requiresAuth: true, breadcrumb: { name: 'Criar Usuário', icon: 'icon-user' } }
+  },
+  {
+    path: '/security/profile',
+    component: Profile,
+    name: 'security.profile',
+    meta: { requiresAuth: true, breadcrumb: { name: 'Meu Perfil', icon: 'icon-user' } }
   }
 ]
 
