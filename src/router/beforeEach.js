@@ -16,7 +16,6 @@ const beforeEach = (to, from, next) => {
   /**
    * Otherwise  if authentication is required login.
    */
-   console.log("Check user Token")
   store.dispatch('checkUserToken')
     .then(() => {
       console.log("Token is Valid")

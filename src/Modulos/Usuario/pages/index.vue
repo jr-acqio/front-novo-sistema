@@ -48,6 +48,7 @@
 
 <script>
 import { userCreateUrl } from '../../../services/config'
+import { http } from 'plugins/http'
 export default {
   metaInfo: {
     titleTemplate: '%s - Usuários'
@@ -58,7 +59,7 @@ export default {
     }
   },
   created() {
-    this.axios.get(userCreateUrl).then(response => {
+    http.get(userCreateUrl).then(response => {
       console.log(response)
       this.rows = response.data
       setTimeout(function() {

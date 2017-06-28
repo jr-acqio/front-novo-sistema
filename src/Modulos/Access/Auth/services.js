@@ -21,7 +21,7 @@ export const postLogin = ({ email, password }) =>
  .then(getData) // .then(response => getData(response))
 
 // get current user's data
-export const loadUserData = () => http.get(userUrl).then(getData)
+export const loadUserData = () => http.get(userUrl).then(getData, console.log("Recarreguei o usuario"))
 
 // revoke current token
 export const revokeToken = () => http.post('/auth/token/revoke').then(getData)

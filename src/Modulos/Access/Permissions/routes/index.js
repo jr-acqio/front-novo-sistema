@@ -14,6 +14,6 @@ export default [
     path: '/permissions',
     component: Perms,
     // redirect: { name: 'auth.signin' },
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, breadcrumb: { name: 'Permissões', icon: 'icon-key' } }
   }
 ]

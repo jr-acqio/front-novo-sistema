@@ -42,8 +42,14 @@ export const setToken = ({ commit }, payload) => {
 
 export const checkUserToken = ({ dispatch, state }) => {
   // If the token exists then all validation has already been done
+  console.log("Estou dentro do CheckUserToken", !isEmpty(state.token), state)
   if (!isEmpty(state.token)) {
+    console.log("State ", state)
+    // if (!isEmpty(state.user)) {
+    // }
     return Promise.resolve(state.token)
+    // console.log("Voce deu reload na pagina vou recarregar o usuario no vuex")
+    // dispatch('loadUser')
   }
   /**
    * Token does not exist yet
@@ -69,7 +75,7 @@ export const checkUserToken = ({ dispatch, state }) => {
  */
 export const loadUser = ({ dispatch }) => services.loadUserData()
   // store user's data
-  .then(user => dispatch('setUser', user.data))
+  .then(user => dispatch('setUser', user))
   .catch(() => {
     // Process failure, delete the token
     dispatch('setToken', '')

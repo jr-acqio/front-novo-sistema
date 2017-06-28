@@ -11,13 +11,13 @@
           <el-progress :text-inside="true" :stroke-width="22" status="info" :percentage="progress"></el-progress>
         </div>
         <form @keydown="form.errors.clear($event.target.name)" enctype="multipart/form-data">
-          <div v-if="msg" class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
+          <div v-if="form.successful" class="alert alert-success alert-styled-left alert-arrow-left alert-bordered">
     				<button type="button" class="close" data-dismiss="alert"><span>×</span><span class="sr-only">Close</span></button>
     				<span class="text-semibold">{{msg}}</span>
 			    </div>
           <!-- <alert-success :form="form" :message="msg"></alert-success> -->
           <alert-errors :form="form" message=""></alert-errors>
-          <div v-if="info">
+          <div v-if="info && form.successful">
             <p>Foram encontrados {{ info.length }} <span v-if="info.length>1">boletos pagos.</span><span v-else>boleto pago.</span></p>
             <table class="table table-bordered table-hover table-stripped">
               <thead>
@@ -91,12 +91,12 @@ export default {
         onUploadProgress: function(progressEvent) {
           var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
           self.progress = percentCompleted
+          console.log(percentCompleted)
         }
       }
-
-      console.log(data)
       axios.post(conciliationBoletosUrl, data, config).then(response => {
-        console.log(response)
+        this.form.successful = true
+        this.form.errors.set({})
         this.msg = response.data.msg
         this.info = response.data.info
         $('input[type="file"]').val('')
@@ -105,6 +105,7 @@ export default {
         this.loading = false
         console.log(error.response)
         this.form.errors.set(error.response.data)
+        this.form.successful = false
       })
     }
   }
