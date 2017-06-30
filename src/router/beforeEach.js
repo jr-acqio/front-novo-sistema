@@ -25,7 +25,7 @@ const beforeEach = (to, from, next) => {
     .catch(() => {
       console.log("Redirect to Login")
       // No token, or it is invalid
-      next({ name: 'home' }) // redirect to login
+      next({ name: 'auth.signin' }) // redirect to login
     })
 }
 

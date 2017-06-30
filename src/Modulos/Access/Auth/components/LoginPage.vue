@@ -61,7 +61,6 @@
             this.$router.push('/home')
             // this.$router.push({ name: 'home' })
           }, (error) => {
-              // console.log("Deu FALHA!", error)
               this.form.errors.set(error.response.data)
               this.loading = false
               this.msgButtonSubmit = 'Login <i class="icon-arrow-right14 position-right"></i>'

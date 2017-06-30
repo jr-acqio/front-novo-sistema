@@ -115,14 +115,21 @@ export default {
     },
     newGoup() {
       this.loading = true
-      let self = this
       this.form.post(roleUrl).then(response => {
-        this.msg = 'Papel ' + response.data + ' criado com sucesso!'
+        this.msg = 'Papel ' + response.data.name + ' criado com sucesso!'
+        this.rows.push(response.data)
+        this.refreshTable()
         this.loading = false
-        // this.clearForm()
+        this.form.reset()
       }).catch(response => {
         this.loading = false
       })
+    },
+    refreshTable() {
+      self.dtHandle.destroy()
+      setTimeout(function() {
+        self.dtHandle = $('#' + 'table1').DataTable()
+      }, 100)
     }
   },
   created() {

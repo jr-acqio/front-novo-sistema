@@ -17,6 +17,7 @@ export default (http, store, router) => {
       * messages can be changed on app/Providers/EventServiceProvider.php
       */
       if ([401, 400].indexOf(response.status) > -1) {
+        store.dispatch('logout')
         router.push({ name: 'auth.signin' })
       }
 
