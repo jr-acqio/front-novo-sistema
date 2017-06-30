@@ -42,9 +42,9 @@ export const setToken = ({ commit }, payload) => {
 
 export const checkUserToken = ({ dispatch, state }) => {
   // If the token exists then all validation has already been done
-  console.log("Estou dentro do CheckUserToken", !isEmpty(state.token), state)
+  // console.log("Estou dentro do CheckUserToken", !isEmpty(state.token), state)
   if (!isEmpty(state.token)) {
-    console.log("State ", state)
+    // console.log("State ", state)
     // if (!isEmpty(state.user)) {
     // }
     return Promise.resolve(state.token)

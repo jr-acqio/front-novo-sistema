@@ -21,6 +21,17 @@
       <label>Password Confirmation:</label>
       <input type="password" class="form-control" v-model="form.password_confirmation">
     </div>
+    <div class="form-group">
+      <label for="">Níveis de Permissão</label><br>
+      <el-select v-model="form.roles" multiple placeholder="Escolha os Niveis de Permissão">
+        <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value">
+      </el-option>
+    </el-select>
+  </div>
   </form>
   <span slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">Cancelar</el-button>
@@ -81,7 +92,7 @@
 </template>
 
 <script>
-import { userUrl, getHeader, userCreateUrl } from './../../../services/config'
+import { userUrl, getHeader, userCreateUrl, roleUrl } from './../../../services/config'
 import Form from 'vform'
 import { http } from 'plugins/http'
 export default {
@@ -92,11 +103,13 @@ export default {
     return {
       user: '',
       msg: '',
+      options: [],
       form: new Form({
         name: '',
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
+        roles: []
       }),
       loading: true,
       loadingButton: false,
@@ -148,6 +161,14 @@ export default {
       })
       self.loading = false
     }, 1000)
+    let options = []
+    http.get(roleUrl).then(response => {
+      for (var i = 0; i < response.data.length; i++) {
+        console.log(response.data[i])
+        options.push({ value: response.data[i].id, label: response.data[i].display_name })
+      }
+      this.options = options
+    })
   }
 }
 </script>

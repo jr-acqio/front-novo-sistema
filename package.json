@@ -29,6 +29,7 @@
     "node-sass": "^3.10.1",
     "pusher-js": "^3.2.3",
     "sass-loader": "^4.0.2",
+    "select2": "^4.0.3",
     "sweetalert2": "^6.6.2",
     "switchery": "0.0.2",
     "vform": "^0.7.4",
