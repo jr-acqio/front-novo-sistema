@@ -4,7 +4,7 @@ export default function () {
   $.extend(true, $.fn.dataTable.defaults, {
     renderer: 'bootstrap',
     dom: 'lBfrtip',
-    colReorder: true,
+    // colReorder: true,
     responsive: true,
     buttons: [
       {

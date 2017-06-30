@@ -15,6 +15,7 @@
       { header: '#' },
       { header: 'Nome' },
       { header: 'Email' },
+      { header: 'Niveis de Acesso' },
       { header: 'Criado em' },
       { header: 'Ações' }
       ]">
@@ -22,6 +23,7 @@
         <td>{{ index + 1 }}</td>
         <td>{{ row.name }}</td>
         <td>{{ row.email }}</td>
+        <td>{{ pluckRoles(row.roles) }}</td>
         <td>{{ row.created_at }}</td>
         <td sortable="false">
           <ul class="icons-list">
@@ -31,7 +33,9 @@
               </a>
 
               <ul class="dropdown-menu dropdown-menu-right">
-
+                <li @click="deleteUser(row)">
+                  <a href="javascript:void(0)"><i class="icon-database-remove"></i> Excluir</a>
+                </li>
               </ul>
             </li>
           </ul>
@@ -47,8 +51,9 @@
 </template>
 
 <script>
-import { userCreateUrl } from '../../../services/config'
+import { userURL } from '../../../services/config'
 import { http } from 'plugins/http'
+import _ from 'lodash'
 export default {
   metaInfo: {
     titleTemplate: '%s - Usuários'
@@ -59,7 +64,7 @@ export default {
     }
   },
   created() {
-    http.get(userCreateUrl).then(response => {
+    http.get(userURL).then(response => {
       console.log(response)
       this.rows = response.data
       setTimeout(function() {
@@ -68,6 +73,17 @@ export default {
     }).catch(error => {
       console.log(error)
     })
+  },
+  methods: {
+    pluckRoles(roles) {
+      return _.map(roles, 'display_name').join(', ')
+      // console.log(_.map(roles, 'display_name'))
+    },
+    deleteUser(user) {
+      http.delete(userURL + '/' + user.id).then(response => {
+        console.log(response)
+      })
+    }
   }
 }
 </script>

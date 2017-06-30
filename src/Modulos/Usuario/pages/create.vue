@@ -94,7 +94,7 @@ export default {
       this.loading = true
       let self = this
       this.form.post(userCreateUrl).then(response => {
-        this.msg = response.data
+        this.msg = "Usuário " + response.data.name + " criado com sucesso!"
         this.loading = false
         this.clearForm()
       }).catch(response => {

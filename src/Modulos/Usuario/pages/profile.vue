@@ -86,6 +86,23 @@
             </div>
           </div>
         </div>
+
+        <div class="form-group">
+          <label for="">Níveis de Permissão</label><br>
+          <ul>
+            <li v-for="item in user.roles">{{ item.display_name }}</li>
+          </ul>
+          <!-- <el-select disabled :value="user.roles[0]" multiple>
+            <el-option
+              v-for="item in user.roles"
+              itemSelected="true"
+              :key="item.id"
+              :label="item.display_name"
+              :value="item.id">
+            </el-option>
+          </el-select> -->
+        </div>
+
       </div>
     </div>
   </div>
@@ -135,10 +152,10 @@ export default {
     updateProfile() {
       this.loadingButton = true
       this.form.put(userCreateUrl + '/' + this.user.id).then(response => {
-        this.msg = response.data.msg
+        this.msg = "Usuário " + response.data.user.name + " atualizado com sucesso!"
         window.localStorage.setItem('authUser', JSON.stringify(response.data.user))
         this.user = response.data.user
-        this.$store.dispatch('setUserObject', response.data.user)
+        this.$store.dispatch('setUser', response.data.user)
         this.clearForm()
         this.loadingButton = false
         this.dialogFormVisible = false
