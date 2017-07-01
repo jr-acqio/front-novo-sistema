@@ -51,7 +51,7 @@
 
 <script>
 import { Form } from 'vform'
-import { userCreateUrl, roleUrl } from './../../../services/config'
+import { userURL, roleUrl } from './../../../services/config'
 import { http } from 'plugins/http'
 export default {
   name: 'create',
@@ -93,7 +93,7 @@ export default {
     newUser() {
       this.loading = true
       let self = this
-      this.form.post(userCreateUrl).then(response => {
+      this.form.post(userURL).then(response => {
         this.msg = "Usuário " + response.data.name + " criado com sucesso!"
         this.loading = false
         this.clearForm()

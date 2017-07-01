@@ -36,8 +36,6 @@ export default {
 	}
 }
 </script>
-
-<style src="sweetalert2/dist/sweetalert2.min.css"></style>
 <style lang="scss">
 
 .pagination {

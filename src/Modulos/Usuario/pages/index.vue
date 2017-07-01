@@ -16,6 +16,7 @@
       { header: 'Nome' },
       { header: 'Email' },
       { header: 'Niveis de Acesso' },
+      { header: 'Status' },
       { header: 'Criado em' },
       { header: 'Ações' }
       ]">
@@ -24,7 +25,13 @@
         <td>{{ row.name }}</td>
         <td>{{ row.email }}</td>
         <td>{{ pluckRoles(row.roles) }}</td>
-        <td>{{ row.created_at }}</td>
+        <td>
+          <span class="label bg-success" v-if="row.deleted_at === null">Ativo</span>
+          <el-tooltip v-else style="cursor:pointer;" :content="'Usuário desativado em ' + date(row.deleted_at) " placement="top">
+            <span class="label bg-danger">Inativo</span>
+          </el-tooltip>
+        </td>
+        <td>{{ date(row.created_at) }}</td>
         <td sortable="false">
           <ul class="icons-list">
             <li class="dropdown">
@@ -33,8 +40,11 @@
               </a>
 
               <ul class="dropdown-menu dropdown-menu-right">
-                <li @click="deleteUser(row)">
-                  <a href="javascript:void(0)"><i class="icon-database-remove"></i> Excluir</a>
+                <li v-if="row.deleted_at === null" @click="askInactive(index)">
+                  <a href="javascript:void(0)"><i class="icon-database-remove"></i> Inativar</a>
+                </li>
+                <li v-else @click="askActive(index)">
+                  <a href="javascript:void(0)"><i class="icon-database-add"></i> Ativar</a>
                 </li>
               </ul>
             </li>
@@ -43,11 +53,11 @@
       </tr>
     </datatable-slot>
 
-    </template>
-    <template v-else>
-      <router-view></router-view>
-    </template>
-  </div>
+  </template>
+  <template v-else>
+    <router-view></router-view>
+  </template>
+</div>
 </template>
 
 <script>
@@ -60,29 +70,83 @@ export default {
   },
   data() {
     return {
-        rows: []
+      rows: []
     }
   },
+  watch: {
+    // call again the method if the route changes
+    '$route': 'fetchData'
+  },
   created() {
-    http.get(userURL).then(response => {
-      console.log(response)
-      this.rows = response.data
-      setTimeout(function() {
-        self.dtHandle = $('#' + 'table1').DataTable()
+    this.fetchData()
+    setTimeout(function() {
+      self.dtHandle = $('#' + 'table1').DataTable()
     }, 100)
-    }).catch(error => {
-      console.log(error)
-    })
   },
   methods: {
+    fetchData() {
+      http.get(userURL).then(response => {
+        console.log(response)
+        this.rows = response.data
+        this.refreshTable()
+      }).catch(error => {
+        console.log(error)
+      })
+    },
     pluckRoles(roles) {
       return _.map(roles, 'display_name').join(', ')
       // console.log(_.map(roles, 'display_name'))
     },
-    deleteUser(user) {
+    date (val) {
+      return moment(val).format('DD/MM/YYYY HH:mm:ss')
+    },
+    askInactive(index) {
+      let user = this.rows[index]
+      swal({
+        title: `Deseja inativar o usuário ${user.name} ?`,
+        text: "",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Sim, inativar!",
+        closeOnConfirm: false
+      }, () => this.disabledUser(index))
+    },
+    askActive(index) {
+      let user = this.rows[index]
+      swal({
+        title: `Deseja ativar o usuário ${user.name} ?`,
+        text: ``,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Sim, ativar!",
+        closeOnConfirm: false
+      }, () => this.enableUser(index))
+    },
+    disabledUser(index) {
+      let user = this.rows[index]
       http.delete(userURL + '/' + user.id).then(response => {
-        console.log(response)
+        this.rows[index] = response.data
+        swal(`Usuário ${user.name} inativado!`, "", "success")
+        this.fetchData()
       })
+    },
+    enableUser(index) {
+      let user = this.rows[index]
+      http.put(userURL + '/' + user.id, { enabled: 1 }).then(response => {
+        this.rows[index] = response.data.user
+        swal(`Usuário ${user.name} ativado!`, "", "success")
+        this.fetchData()
+      })
+    },
+    refreshTable() {
+      self.dtHandle.destroy()
+      setTimeout(function() {
+        self.dtHandle = $('#' + 'table1').DataTable()
+      }, 100)
     }
   }
 }

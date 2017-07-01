@@ -92,15 +92,6 @@
           <ul>
             <li v-for="item in user.roles">{{ item.display_name }}</li>
           </ul>
-          <!-- <el-select disabled :value="user.roles[0]" multiple>
-            <el-option
-              v-for="item in user.roles"
-              itemSelected="true"
-              :key="item.id"
-              :label="item.display_name"
-              :value="item.id">
-            </el-option>
-          </el-select> -->
         </div>
 
       </div>
@@ -109,7 +100,7 @@
 </template>
 
 <script>
-import { userUrl, getHeader, userCreateUrl, roleUrl } from './../../../services/config'
+import { userURL, getHeader, meURL, roleUrl } from './../../../services/config'
 import Form from 'vform'
 import { http } from 'plugins/http'
 export default {
@@ -151,7 +142,7 @@ export default {
     },
     updateProfile() {
       this.loadingButton = true
-      this.form.put(userCreateUrl + '/' + this.user.id).then(response => {
+      this.form.put(userURL + '/' + this.user.id).then(response => {
         this.msg = "Usuário " + response.data.user.name + " atualizado com sucesso!"
         window.localStorage.setItem('authUser', JSON.stringify(response.data.user))
         this.user = response.data.user
@@ -168,7 +159,7 @@ export default {
   created() {
     let self = this
     setTimeout(function() {
-      http.get(userUrl).then(response => {
+      http.get(meURL).then(response => {
         self.user = response.data
         self.form.name = self.user.name
         self.form.email = self.user.email

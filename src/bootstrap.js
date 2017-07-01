@@ -1,8 +1,6 @@
 import Vue from 'vue'
 require('lodash')
-window.swal = require('sweetalert2')
 window.$ = window.jQuery = require('jquery')
-
 // chartjs package
 require('chart.js')
 // vue-charts package

@@ -13,6 +13,8 @@ require('datatables.net-buttons/js/buttons.print.js')
 require('datatables.net-colreorder')
 require('datatables.net-responsive-bs')
 
+require('sweetalert')
+
 window.moment = require('moment')
 moment.locale('pt_br')
 

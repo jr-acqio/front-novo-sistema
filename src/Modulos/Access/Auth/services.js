@@ -2,7 +2,7 @@
 // import http client
 import { http } from 'plugins/http'
 import { getData } from 'utils/get'
-import { loginUrl, userUrl } from '../../../services/config'
+import { loginUrl, meURL } from '../../../services/config'
 // send login data and retrive a new token
 export const postLogin = ({ email, password }) =>
   http.post(loginUrl, { email, password })
@@ -21,7 +21,7 @@ export const postLogin = ({ email, password }) =>
  .then(getData) // .then(response => getData(response))
 
 // get current user's data
-export const loadUserData = () => http.get(userUrl).then(getData, console.log("Recarreguei o usuario"))
+export const loadUserData = () => http.get(meURL).then(getData, console.log("Recarreguei o usuario"))
 
 // revoke current token
 export const revokeToken = () => http.post('/auth/token/revoke').then(getData)
