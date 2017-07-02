@@ -1,4 +1,5 @@
 export default {
   user: {},
-  token: null
+  token: null,
+  roles: []
 }

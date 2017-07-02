@@ -6,13 +6,16 @@ import { routes as app } from '../Modulos'
 Vue.use(Router)
 const NotFound = {
   path: '*',
+  // component: {
+  //   template: `<div><h1>Esta rota não existe</h1></div>`
+  // }
   redirect: to => {
     window.history.back()
   }
 }
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_operator
 const routes = [...app, NotFound]
-console.log(routes)
+// console.log(routes)
 
 const router = new Router({
   routes,

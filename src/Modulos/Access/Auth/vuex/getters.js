@@ -5,3 +5,5 @@ import { isEmpty } from 'lodash'
 export const isLogged = ({ token }) => !isEmpty(token)
 // get current user data
 export const currentUser = ({ user }) => user
+// get roles
+export const roles = ({ roles }) => roles

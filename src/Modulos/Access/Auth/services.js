@@ -2,7 +2,7 @@
 // import http client
 import { http } from 'plugins/http'
 import { getData } from 'utils/get'
-import { loginUrl, meURL } from '../../../services/config'
+import { loginUrl, meURL, roleUrl } from '../../../services/config'
 // send login data and retrive a new token
 export const postLogin = ({ email, password }) =>
   http.post(loginUrl, { email, password })
@@ -22,6 +22,9 @@ export const postLogin = ({ email, password }) =>
 
 // get current user's data
 export const loadUserData = () => http.get(meURL).then(getData, console.log("Recarreguei o usuario"))
+
+// get Roles and Permissions for save in vuex data
+export const loadRoleAndPermissions = () => http.get(roleUrl).then(getData, console.log("Carregando as Roles"))
 
 // revoke current token
 export const revokeToken = () => http.post('/auth/token/revoke').then(getData)

@@ -9,13 +9,10 @@ export default {
     // VsFooter
   },
   computed: {
-    // ...mapState({
-    //   // userStore: state => state.userStore,
-    //   // accessStore: state => state.accessStore
-    // })
     ...mapGetters(['isLogged']),
     ...mapState({
-      user: state => state.Auth.user
+      user: state => state.Auth.user,
+      roles: state => state.Auth.roles
     })
   },
   data() {

@@ -59,7 +59,7 @@ export default{
 					<li>
 						<router-link to="/home"><i class="icon-home2"></i> <span>Dashboard</span></router-link>
 					</li>
-					<li>
+					<li v-if="$acl.hasRole('adminin')">
 						<a href="javascript:void(0)" class="has-ul"><i class="icon-users4"></i> <span>Usuários</span></a>
 						<ul class="hidden-ul" style="display: none;">
 							<li>
@@ -113,7 +113,7 @@ export default{
 			<li>
 				<router-link to="/roles"><i class="icon-users4"></i> Roles</router-link>
 			</li>
-			<li>
+			<li v-if="$acl.hasRole('admin')">
 				<router-link to="/permissions"><i class="icon-key"></i> Permissions</router-link>
 			</li>
 		</ul>
