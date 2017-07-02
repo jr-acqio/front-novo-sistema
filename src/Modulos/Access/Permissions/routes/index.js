@@ -13,7 +13,6 @@ export default [
     name: 'permissions',
     path: '/permissions',
     component: Perms,
-    // redirect: { name: 'auth.signin' },
-    meta: { requiresAuth: true, requireRole: ['adminsalksd'], breadcrumb: { name: 'Permissões', icon: 'icon-key' } }
+    meta: { requiresAuth: true, requireRole: ['admin'], breadcrumb: { name: 'Permissões', icon: 'icon-key' } }
   }
 ]

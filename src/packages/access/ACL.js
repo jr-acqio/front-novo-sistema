@@ -4,8 +4,8 @@ export default function install(Vue, { store }) {
   var ACL = {
     // Irá verificar as permissões do usuário, pode receber um array ou um unico objeto
     can(permission, requireAll = false) {
-      let niveis = store.state.Auth.user.roles
       let self = this
+      let levels = store.state.Auth.roles
       if (_.isArray(permission)) {
         for (let i = 0; i < permission.length; i++) {
           let hasPerm = self.can(permission[i].name)
@@ -17,9 +17,9 @@ export default function install(Vue, { store }) {
         }
         return requireAll
       } else {
-        for (let i = 0; i < store.state.Auth.roles.length; i++) {
-          for (var j = 0; j < store.state.Auth.roles[i].perms.length; j++) {
-            if (store.state.Auth.roles[i].perms[j].name === permission) {
+        for (let i = 0; i < levels.length; i++) {
+          for (var j = 0; j < levels[i].perms.length; j++) {
+            if (levels[i].perms[j].name === permission) {
               return true
             }
           }
@@ -43,8 +43,8 @@ export default function install(Vue, { store }) {
           // Return the value of $requireAll;
           return requireAll;
         } else {
-          for (let i = 0; i < store.state.Auth.roles.length; i++) {
-            if (store.state.Auth.roles[i].name === name) {
+          for (let i = 0; i < store.state.Auth.user.roles.length; i++) {
+            if (store.state.Auth.user.roles[i].name === name) {
               return true
             }
           }

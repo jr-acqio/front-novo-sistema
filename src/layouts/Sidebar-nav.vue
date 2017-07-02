@@ -1,15 +1,18 @@
 <script>
 import { getHeader } from './../services/config'
-import {mapState} from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default{
 	created() {
 		this.$nextTick(function () {
 			// $.getScript('/static/assets/js/core/app.js')
 		})
 	},
+	mounted() {
+	},
 	methods: {
 	},
 	computed: {
+		...mapGetters(['isLogged']),
 		...mapState({
 			user: state => state.Auth.user
 		})
@@ -59,7 +62,7 @@ export default{
 					<li>
 						<router-link to="/home"><i class="icon-home2"></i> <span>Dashboard</span></router-link>
 					</li>
-					<li v-if="$acl.hasRole('adminin')">
+					<li v-if="$acl.hasRole('admin')">
 						<a href="javascript:void(0)" class="has-ul"><i class="icon-users4"></i> <span>Usuários</span></a>
 						<ul class="hidden-ul" style="display: none;">
 							<li>
@@ -106,14 +109,13 @@ export default{
 	<li>
 		<router-link to="/security/profile"><i class="icon-user-lock"></i> <span>Meu Perfil</span></router-link>
 	</li>
-
-	<li>
+	<li v-if="$acl.hasRole('admin')">
 		<a href="javascript:void(0)" class="has-ul"><i class="icon-users4"></i> <span>Roles & Permissions</span></a>
 		<ul class="hidden-ul" style="display: none;">
 			<li>
 				<router-link to="/roles"><i class="icon-users4"></i> Roles</router-link>
 			</li>
-			<li v-if="$acl.hasRole('admin')">
+			<li>
 				<router-link to="/permissions"><i class="icon-key"></i> Permissions</router-link>
 			</li>
 		</ul>

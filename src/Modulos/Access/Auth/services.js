@@ -24,7 +24,7 @@ export const postLogin = ({ email, password }) =>
 export const loadUserData = () => http.get(meURL).then(getData, console.log("Recarreguei o usuario"))
 
 // get Roles and Permissions for save in vuex data
-export const loadRoleAndPermissions = () => http.get(roleUrl).then(getData, console.log("Carregando as Roles"))
+export const loadRoleAndPermissions = () => http.get(roleUrl).then(getData)
 
 // revoke current token
 export const revokeToken = () => http.post('/auth/token/revoke').then(getData)

@@ -13,6 +13,6 @@ export default [
     name: 'role',
     path: '/roles',
     component: Home,
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, requireRole: ['admin'] }
   }
 ]

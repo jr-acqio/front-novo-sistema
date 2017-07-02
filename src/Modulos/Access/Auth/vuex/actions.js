@@ -67,14 +67,13 @@ export const checkUserToken = ({ dispatch, state }) => {
       return dispatch('setToken', token) // keep promise chain
     })
     // With the token in hand, retrieves the user's data, validating the token
-    .then(() => dispatch('loadUser'), console.log("Carregando o usuário"))
+    .then(() => dispatch('loadUser'))
     // After load User, should also load Roles
-    // .then(() => dispatch('checkRoles'))
+    .then(() => dispatch('checkRoles'))
 }
 
 export const checkRoles = ({ dispatch, state }) => {
   if (!isEmpty(state.roles)) {
-    console.log("Checko Roles True")
     return Promise.resolve(state.roles)
   }
   return dispatch('loadRoles')

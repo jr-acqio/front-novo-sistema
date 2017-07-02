@@ -21,6 +21,6 @@ export default [
     name: 'user.index',
     path: '/users',
     component: Home,
-    meta: { requiresAuth: true, requireRole: 'admin', breadcrumb: { name: 'Usuários', icon: '' } }
+    meta: { requiresAuth: true, requireRole: ['admin'], breadcrumb: { name: 'Usuários', icon: '' } }
   }
 ]

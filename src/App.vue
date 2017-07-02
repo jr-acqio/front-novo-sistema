@@ -92,14 +92,13 @@ export default {
 
         <!-- Page content -->
         <div class="page-content">
-          <sidebar-nav></sidebar-nav>
+          <sidebar-nav v-if="user.hasOwnProperty('name')"></sidebar-nav>
           <!-- Main content -->
           <div class="content-wrapper">
             <breadcrumb></breadcrumb>
 
             <!-- Content area -->
             <div class="content">
-
               <child></child>
               <!-- <dashboard></dashboard> -->
 
