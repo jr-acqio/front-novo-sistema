@@ -4,3 +4,4 @@
 */
 /* eslint-disable global-require */
 export const Home = r => require.ensure([], () => r(require('../pages/index')), 'role-bundle')
+export const Edit = r => require.ensure([], () => r(require('../pages/edit')), 'role-bundle')

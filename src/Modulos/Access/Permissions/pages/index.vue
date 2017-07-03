@@ -1,45 +1,85 @@
 <template>
   <div class="">
     <template v-if="$route.matched.length == 2">
-      <!-- <div class="pull-right">
-        <div class="col-lg-12 form-group">
-          <router-link to="/users/create" class="btn bg-blue btn-labeled heading-btn"><b><i class="icon-user-plus"></i></b> Criar Usuário</router-link>
+
+      <el-dialog v-if="dialogVisible" title="Criar Permissão" v-model="dialogVisible" size="small" :before-close="handleClose">
+        <div class="row">
+          <form v-loading="loading" @keydown="form.errors.clear($event.target.name)">
+            <alert-success :form="form" :message="msg"></alert-success>
+            <alert-errors :form="form" classe="alert bg-danger alert-styled-left" message=""></alert-errors>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="">Nome</label>
+                  <input type="text" class="form-control" v-model="form.name">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="">Nome de Exibição</label>
+                  <input type="text" class="form-control" v-model="form.display_name">
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <label for="">Descrição</label>
+                  <textarea class="form-control" rows="5" cols="80" v-model="form.description"></textarea>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
-      </div> -->
-      <datatable-slot
-      title="Lista de Permssões"
-      id="table1"
-      v-loading.body="loading"
-      url="http://localhost:8000/api/teste"
-      :headers="[
-      { header: '#' },
-      { header: 'Nome' },
-      { header: 'Nome de Exibição' },
-      { header: 'Descrição' },
-      { header: 'Criado em' },
-      { header: 'Ações' }
-      ]">
-      <tr v-for="(row, index) in rows">
-        <td>{{ index + 1 }}</td>
-        <td>{{ row.name }}</td>
-        <td>{{ row.display_name }}</td>
-        <td>{{ row.description }}</td>
-        <td>{{ row.created_at }}</td>
-        <td sortable="false">
-          <ul class="icons-list">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="icon-menu9"></i>
-              </a>
 
-              <ul class="dropdown-menu dropdown-menu-right">
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">Fechar</el-button>
+          <el-button type="primary" @click="newPerm" :loading="loading"><b>SALVAR</b></el-button>
+          <!-- <el-button type="primary" @click="dialogVisible = false">Confirm</el-button> -->
+        </span>
+      </el-dialog>
 
-              </ul>
-            </li>
-          </ul>
-        </td>
-      </tr>
-    </datatable-slot>
+      <div class="row">
+        <div class="col-lg-12">
+          <button type="button" @click="dialogVisible = true" class="pull-right btn bg-blue btn-labeled heading-btn"><b><i class="icon-user-plus"></i></b> Criar Permissão</button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+
+        <datatable-slot
+        title="Lista de Permssões"
+        id="table1"
+        v-loading.body="loading"
+        url="http://localhost:8000/api/teste"
+        :headers="[
+        { header: '#' },
+        { header: 'Nome' },
+        { header: 'Nome de Exibição' },
+        { header: 'Descrição' },
+        { header: 'Criado em' },
+        { header: 'Ações' }
+        ]">
+        <tr v-for="(row, index) in rows">
+          <td>{{ index + 1 }}</td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.display_name }}</td>
+          <td>{{ row.description }}</td>
+          <td>{{ row.created_at }}</td>
+          <td sortable="false">
+            <ul class="icons-list">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-menu9"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </datatable-slot>
+      </div>
 
     </template>
     <template v-else>
@@ -49,7 +89,8 @@
 </template>
 
 <script>
-import { permissionUrl } from '../../../../services/config'
+import { Form } from 'vform'
+import { permUrl } from '../../../../services/config'
 import {http} from 'plugins/http'
 export default {
   metaInfo: {
@@ -57,11 +98,42 @@ export default {
   },
   data() {
     return {
-        rows: []
+        form: new Form({
+          name: '',
+          display_name: '',
+          description: ''
+        }),
+        rows: [],
+        dialogVisible: false,
+        loading: false,
+        msg: ''
+    }
+  },
+  methods: {
+    openModal() {
+      this.dialogVisible = true
+    },
+    newPerm() {
+      this.loading = true
+      this.form.post(permUrl).then(response => {
+        this.msg = 'Permissão ' + response.data.name + ' criada com sucesso!'
+        this.rows.push(response.data)
+        this.refreshTable()
+        this.loading = false
+        this.form.reset()
+      }).catch(response => {
+        this.loading = false
+      })
+    },
+    refreshTable() {
+      self.dtHandle.destroy()
+      setTimeout(function() {
+        self.dtHandle = $('#' + 'table1').DataTable()
+      }, 100)
     }
   },
   created() {
-    http.get(permissionUrl).then(response => {
+    http.get(permUrl).then(response => {
       console.log(response)
       this.rows = response.data
       setTimeout(function() {

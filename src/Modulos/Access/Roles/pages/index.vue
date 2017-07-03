@@ -4,7 +4,7 @@
 
       <el-dialog v-if="dialogVisible" title="Criar novo Grupo de Usuários" v-model="dialogVisible" size="small" :before-close="handleClose">
         <div class="row">
-          <form v-loading="loading" @submit.prevent="newGoup" @keydown="form.errors.clear($event.target.name)">
+          <form v-loading="loading" @submit.prevent="newGroup" @keydown="form.errors.clear($event.target.name)">
             <alert-success :form="form" :message="msg"></alert-success>
             <alert-errors :form="form" classe="alert bg-danger alert-styled-left" message=""></alert-errors>
             <div class="row">
@@ -41,45 +41,50 @@
         </span>
       </el-dialog>
 
-      <div class="pull-right">
-        <div class="col-lg-12 form-group">
-          <button type="button" class="btn bg-blue btn-labeled heading-btn" @click="openModal"><b><i class="icon-users4"></i></b> Criar Novo Grupo</button>
+      <div class="row">
+        <div class="col-lg-12">
+          <button type="button" @click="dialogVisible = true" class="pull-right btn bg-blue btn-labeled heading-btn"><b><i class="icon-users4"></i></b> Criar Grupo</button>
         </div>
       </div>
-      <datatable-slot
-      title="Grupos de Usuário"
-      id="table1"
-      v-loading.body="loading"
-      url="http://localhost:8000/api/teste"
-      :headers="[
-      { header: '#' },
-      { header: 'Nome' },
-      { header: 'Nome de Exibição' },
-      { header: 'Descrição' },
-      { header: 'Criado em' },
-      { header: 'Ações' }
-      ]">
-      <tr v-for="(row, index) in rows">
-        <td>{{ index + 1 }}</td>
-        <td>{{ row.name }}</td>
-        <td>{{ row.display_name }}</td>
-        <td>{{ row.description }}</td>
-        <td>{{ row.created_at }}</td>
-        <td sortable="false">
-          <ul class="icons-list">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="icon-menu9"></i>
-              </a>
+      <br>
+      <div class="row">
+        <datatable-slot
+        title="Grupos de Usuário"
+        id="table1"
+        v-loading.body="loading"
+        url="http://localhost:8000/api/teste"
+        :headers="[
+        { header: '#' },
+        { header: 'Nome' },
+        { header: 'Nome de Exibição' },
+        { header: 'Descrição' },
+        { header: 'Criado em' },
+        { header: 'Ações' }
+        ]">
+        <tr v-for="(row, index) in rows">
+          <td>{{ index + 1 }}</td>
+          <td>{{ row.name }}</td>
+          <td>{{ row.display_name }}</td>
+          <td>{{ row.description }}</td>
+          <td>{{ row.created_at }}</td>
+          <td sortable="false">
+            <ul class="icons-list">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-menu9"></i>
+                </a>
 
-              <ul class="dropdown-menu dropdown-menu-right">
-
-              </ul>
-            </li>
-          </ul>
-        </td>
-      </tr>
-    </datatable-slot>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li>
+                    <router-link :to="{ name: 'role.edit', params: { id: row.id } }"><i class="icon-database-edit2"></i> Editar</router-link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </datatable-slot>
+      </div>
 
   </template>
   <template v-else>
@@ -113,7 +118,7 @@ export default {
     openModal() {
       this.dialogVisible = true
     },
-    newGoup() {
+    newGroup() {
       this.loading = true
       this.form.post(roleUrl).then(response => {
         this.msg = 'Papel ' + response.data.name + ' criado com sucesso!'
@@ -130,18 +135,25 @@ export default {
       setTimeout(function() {
         self.dtHandle = $('#' + 'table1').DataTable()
       }, 100)
+    },
+    fetchData() {
+      http.get(roleUrl).then(response => {
+        console.log(response)
+        this.rows = response.data
+        this.refreshTable()
+      }).catch(error => {
+        console.log(error)
+      })
     }
   },
   created() {
-    http.get(roleUrl).then(response => {
-      console.log(response)
-      this.rows = response.data
-      setTimeout(function() {
-        self.dtHandle = $('#' + 'table1').DataTable()
-      }, 100)
-    }).catch(error => {
-      console.log(error)
-    })
+    this.fetchData()
+    setTimeout(function() {
+      self.dtHandle = $('#' + 'table1').DataTable()
+    }, 100)
+  },
+  watch: {
+    '$route': 'fetchData'
   }
 }
 </script>
