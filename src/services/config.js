@@ -10,14 +10,14 @@ const version = 'api/'
 
 // Rotas do Passport Auth
 export const loginUrl = apiDomain + 'api/authenticate'
-export const userUrl = apiDomain + 'api/me'
+export const meURL = apiDomain + 'api/me'
 export const forgotPassword = apiDomain + 'api/forgot-password'
 export const resetPassword = apiDomain + 'api/reset-password'
 
 // Rotas Usuário
-export const userCreateUrl = apiDomain + 'api/user'
+export const userURL = apiDomain + 'api/user'
 export const roleUrl = apiDomain + 'api/role'
-export const permissionUrl = apiDomain + 'api/permission'
+export const permUrl = apiDomain + 'api/permission'
 // Rotas de api
 export const userListUrl = apiDomain + version + 'user'
 

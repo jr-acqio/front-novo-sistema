@@ -8,5 +8,8 @@ export default {
   },
   [TYPES.SET_USER] (state, value) {
     state.user = value
+  },
+  [TYPES.SET_ROLES] (state, value) {
+    state.roles = value
   }
 }

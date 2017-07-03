@@ -9,13 +9,10 @@ export default {
     // VsFooter
   },
   computed: {
-    // ...mapState({
-    //   // userStore: state => state.userStore,
-    //   // accessStore: state => state.accessStore
-    // })
     ...mapGetters(['isLogged']),
     ...mapState({
-      user: state => state.Auth.user
+      user: state => state.Auth.user,
+      roles: state => state.Auth.roles
     })
   },
   data() {
@@ -95,14 +92,13 @@ export default {
 
         <!-- Page content -->
         <div class="page-content">
-          <sidebar-nav></sidebar-nav>
+          <sidebar-nav v-if="user.hasOwnProperty('name')"></sidebar-nav>
           <!-- Main content -->
           <div class="content-wrapper">
             <breadcrumb></breadcrumb>
 
             <!-- Content area -->
             <div class="content">
-
               <child></child>
               <!-- <dashboard></dashboard> -->
 

@@ -26,20 +26,33 @@
             <label>Password Confirmation:</label>
             <input type="password" class="form-control" v-model="form.password_confirmation" value="">
           </div>
-        </div>
-        <div class="row">
           <div class="form-group col-lg-12">
-            <button type="submit" class="btn btn-primary">Criar </button>
-          </div>
+            <label for="">Níveis de Permissão</label><br>
+            <el-select v-model="form.roles" multiple placeholder="Escolha os Niveis de Permissão">
+              <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
         </div>
-      </form>
-    </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-lg-12">
+          <button type="submit" class="btn btn-primary">Criar </button>
+        </div>
+      </div>
+    </form>
   </div>
+</div>
 </template>
 
 <script>
 import { Form } from 'vform'
-import { userCreateUrl } from './../../../services/config'
+import { userURL, roleUrl } from './../../../services/config'
+import { http } from 'plugins/http'
 export default {
   name: 'create',
   metaInfo: {
@@ -49,13 +62,26 @@ export default {
     return {
       msg: '',
       loading: false,
+      options: [],
       form: new Form({
         name: '',
         email: '',
         password: '',
-        password_confirmation: ''
+        password_confirmation: '',
+        roles: []
       })
     }
+  },
+  created() {
+    let options = []
+    console.log(options)
+    http.get(roleUrl).then(response => {
+      for (var i = 0; i < response.data.length; i++) {
+        console.log(response.data[i])
+        options.push({ value: response.data[i].id, label: response.data[i].display_name })
+      }
+      this.options = options
+    })
   },
   methods: {
     clearForm() {
@@ -67,8 +93,8 @@ export default {
     newUser() {
       this.loading = true
       let self = this
-      this.form.post(userCreateUrl).then(response => {
-        this.msg = response.data
+      this.form.post(userURL).then(response => {
+        this.msg = "Usuário " + response.data.name + " criado com sucesso!"
         this.loading = false
         this.clearForm()
       }).catch(response => {

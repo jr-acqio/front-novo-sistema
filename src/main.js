@@ -4,6 +4,7 @@ import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/en'
 import App from './App'
 
+require('./includes')
 /**
 * This is the Vuex store and it is
 * avaible to all your components
@@ -34,11 +35,9 @@ Vue.use(httpPlugin, { store, router })
 // Effortlessly keep vue-router and vuex store in sync.
 sync(store, router) // https://github.com/vuejs/vuex-router-sync/tree/next
 
-require('./includes')
-
 var VueBreadcrumbs = require('vue2-breadcrumbs')
 import Acl from './packages/access/ACL'
-Vue.use(Acl)
+Vue.use(Acl, { store })
 import {
   HasError,
   HasError4,
