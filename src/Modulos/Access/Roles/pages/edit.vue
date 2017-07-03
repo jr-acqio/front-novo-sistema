@@ -75,7 +75,7 @@
           <el-button type="primary" @click="askEdit()" :loading="loading">EDITAR</el-button>
         </div>
         <div class="form-group">
-          <label for="">Permissões associadas</label><br>
+          <label for="">Permissões associadas ({{ tableData.length }})</label><br>
           <el-table :data="tableData" border :default-sort = "{prop: 'date', order: 'descending'}" style="width: 100%">
             <el-table-column prop="name" label="Nome" sortable width="180"></el-table-column>
             <el-table-column prop="display_name" label="Nome de Exibição" sortable width="180"></el-table-column>
