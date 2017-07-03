@@ -80,8 +80,8 @@
             <el-table-column prop="name" label="Nome" sortable width="180"></el-table-column>
             <el-table-column prop="display_name" label="Nome de Exibição" sortable width="180"></el-table-column>
             <el-table-column prop="description" label="Descrição" sortable width="180"></el-table-column>
-            <el-table-column prop="created_at" label="Data de criação" sortable width="180"></el-table-column>
-            <el-table-column prop="updated_at" label="Data de atualização" sortable></el-table-column>
+            <el-table-column prop="created_at" :formatter="formatterCreated" label="Data de criação" sortable width="180"></el-table-column>
+            <el-table-column prop="updated_at" :formatter="formatterUpdated" label="Data de atualização" sortable></el-table-column>
           </el-table>
         </div>
 
@@ -162,6 +162,12 @@ export default {
         console.log(error)
         this.loading = false
       })
+    },
+    formatterCreated(row, column) {
+      return moment(row.created_at).format('DD/MM/YYYY HH:mm:ss')
+    },
+    formatterUpdated(row, column) {
+      return moment(row.updated_at).format('DD/MM/YYYY HH:mm:ss')
     },
     date (val) {
       return moment(val).format('DD/MM/YYYY HH:mm:ss')

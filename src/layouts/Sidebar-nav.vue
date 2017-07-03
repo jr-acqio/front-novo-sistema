@@ -94,10 +94,10 @@ export default{
 			<li>
 				<router-link to="/boletos/conciliation"><i class="icon-wallet"></i> Conciliar</router-link>
 			</li>
-			<li>
+			<li v-if="$acl.can('view-boleto')">
 				<router-link to="/boletos/clientes"><i class="icon-barcode2"></i> Boletos Clientes</router-link>
 			</li>
-			<li>
+			<li v-if="$acl.can('view-boleto')">
 				<router-link to="/boletos/franchising"><i class="icon-barcode2"></i> Boletos Franchising</router-link>
 			</li>
 		</ul>
