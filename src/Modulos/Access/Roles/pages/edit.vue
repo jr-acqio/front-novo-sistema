@@ -15,9 +15,9 @@
         </div>
       </div>
     <br>
-    <div class="panel panel-default" v-loading.body="loading">
+    <div class="panel panel-default">
       <div class="panel-heading">
-        <h6 class="panel-title">Grupo ({{ role.name }})<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
+        <h6 class="panel-title">Grupo ({{ form.name }})<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
         <div class="heading-elements">
           <ul class="icons-list">
             <li class="dropdown">
@@ -34,15 +34,16 @@
         </div>
       </div>
       <div class="panel-body">
+        <alert-errors :form="form" classe="alert bg-danger alert-styled-left" message=""></alert-errors>
         <div class="form-group">
           <div class="row">
             <div class="col-lg-6">
               <label for="">Nome:</label>
-              <input type="text" name="" disabled class="form-control" v-model="role.name">
+              <input type="text" name="" class="form-control" v-model="form.name">
             </div>
             <div class="col-lg-6">
-              <label for="">Email:</label>
-              <input type="text" name="" disabled class="form-control" v-model="role.display_name">
+              <label for="">Nome de Exibição:</label>
+              <input type="text" name="" class="form-control" v-model="form.display_name">
             </div>
           </div>
         </div>
@@ -51,18 +52,31 @@
           <div class="row">
             <div class="col-lg-6">
               <label for="">Criado em:</label>
-              <input type="text" name="" disabled class="form-control" :value="date(role.created_at)">
+              <input type="text" name="" disabled class="form-control" :value="date(form.created_at)">
             </div>
             <div class="col-lg-6">
               <label for="">Ultima atualização:</label>
-              <input type="text" name="" disabled class="form-control" :value="date(role.updated_at)">
+              <input type="text" name="" disabled class="form-control" :value="date(form.updated_at)">
             </div>
           </div>
         </div>
-
+        <div class="row">
+          <div class="col-lg-6 form-group">
+            <label for="">Níveis de Permissão</label><br>
+            <el-select :disabled="form.checked" v-model="form.perms" multiple placeholder="Escolha os Niveis de Permissão">
+              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+          </div>
+          <div class="col-lg-6 form-group">
+            <el-checkbox v-model="form.checked">Todas as Permissões</el-checkbox>
+          </div>
+        </div>
+        <div class="form-group">
+          <el-button type="primary" @click="askEdit()" :loading="loading">EDITAR</el-button>
+        </div>
         <div class="form-group">
           <label for="">Permissões associadas</label><br>
-          <el-table :data="role.perms" border :default-sort = "{prop: 'date', order: 'descending'}" style="width: 100%">
+          <el-table :data="tableData" border :default-sort = "{prop: 'date', order: 'descending'}" style="width: 100%">
             <el-table-column prop="name" label="Nome" sortable width="180"></el-table-column>
             <el-table-column prop="display_name" label="Nome de Exibição" sortable width="180"></el-table-column>
             <el-table-column prop="description" label="Descrição" sortable width="180"></el-table-column>
@@ -80,26 +94,73 @@
 
 <script>
 import { http } from 'plugins/http'
-import { roleUrl } from '../../../../services/config'
+import { roleUrl, permUrl } from '../../../../services/config'
 import { Form } from 'vform'
 export default {
   data() {
     return {
-      role: '',
+      tableData: [],
+      options: [],
+      loading: false,
       form: new Form({
-
+        checked: false,
+        perms: [],
+        name: '',
+        display_name: '',
+        description: ''
       })
     }
   },
   created() {
     this.fetchRole()
+    this.fetchPerms()
   },
   methods: {
     fetchRole() {
       console.log(roleUrl + '/' + this.$route.params.id)
       http.get(roleUrl + '/' + this.$route.params.id)
       .then(response => {
-        this.role = response.data
+        let { name, description, display_name } = response.data
+        this.form.name = name
+        this.form.display_name = display_name
+        this.form.description = description
+        this.tableData = response.data.perms
+      })
+    },
+    fetchPerms() {
+      let options = []
+      http.get(permUrl).then(response => {
+        for (var i = 0; i < response.data.length; i++) {
+          options.push({ value: response.data[i].id, label: response.data[i].name })
+        }
+        this.options = options
+      })
+    },
+    askEdit() {
+      swal({
+        title: `Confirmar atualização do Grupo: ${this.form.name} ?`,
+        text: "",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Sim, atualizar!",
+        closeOnConfirm: false
+      }, () => this.updateGroup())
+    },
+    updateGroup() {
+      this.loading = true
+      this.form.put(roleUrl + '/' + this.$route.params.id)
+      .then(response => {
+        swal("Dados atualizados!", "", "success")
+        this.loading = false
+        this.form.reset()
+        this.fetchRole()
+      })
+      .catch(error => {
+        sweetAlert("Oops...", "Verifique os erros", "error")
+        console.log(error)
+        this.loading = false
       })
     },
     date (val) {
@@ -107,7 +168,7 @@ export default {
     }
   },
   watch: {
-    '$route': 'fetchRole'
+    '$route': ['fetchRole', 'fetchPerms']
   }
 }
 </script>
