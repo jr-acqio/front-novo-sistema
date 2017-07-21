@@ -103,6 +103,20 @@ export default{
 		</ul>
 	</li>
 
+	<!-- Vindi -->
+	<li class="navigation-header">
+		<span>Vindi</span> <i title="" class="icon-menu" data-original-title="Vindi"></i>
+	</li>
+	<li>
+		<a href="javascript:void(0)" class="has-ul"><i class="icon-calculator2"></i> <span>Vindi</span></a>
+		<ul class="hidden-ul" style="display: none;">
+			<li>
+				<router-link to="/vindi/subscriptions"><i class="icon-pencil"></i> Assinaturas</router-link>
+			</li>
+		</ul>
+	</li>
+	<!-- /Vindi -->
+
 	<li class="navigation-header">
 		<span>Segurança</span> <i title="" class="icon-menu" data-original-title="Segurança"></i>
 	</li>

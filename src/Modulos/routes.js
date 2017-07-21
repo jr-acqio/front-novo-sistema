@@ -5,6 +5,7 @@ import { routes as roles } from './Access/Roles'
 import { routes as boleto } from './Boletos'
 import { routes as user } from './Usuario'
 import { routes as analytics } from './Analytics'
+import { routes as vindi } from './Vindi'
 
 // https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Spread_operator
 // Thus a new array is created, containing all objects that match the routes.
@@ -15,6 +16,6 @@ const routeDash = {
   component: Dashboard,
   name: 'home',
   meta: { requiresAuth: true, breadcrumb: {name: 'Home', icon: 'icon-home2 position-left'} },
-  children: [...boleto, ...perms, ...roles, ...user, ...analytics]
+  children: [...boleto, ...perms, ...roles, ...user, ...analytics, ...vindi]
 }
 export default [...auth, routeDash]

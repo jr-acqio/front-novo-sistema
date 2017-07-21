@@ -3,7 +3,7 @@ var apiDomain
 if (process.env.NODE_ENV !== 'development') {
   apiDomain = 'https://dev.acqio.co/'
 } else {
-  apiDomain = 'http://dev-local.com/'
+  apiDomain = 'http://localhost:8000/'
 }
 
 const version = 'api/'
