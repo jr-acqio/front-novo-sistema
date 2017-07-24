@@ -27,8 +27,8 @@
       return {
         form: new Form({
           captcha: '',
-          email: 'joselito.junior@esfera5.com.br',
-          password: 'password'
+          email: '',
+          password: ''
         }),
         key: '6LcOVB8UAAAAAFuiPdmlj_IKgmqYVIfO7gfHUPs3',
         msgButtonSubmit: 'Login <i class="icon-arrow-right14 position-right"></i>',

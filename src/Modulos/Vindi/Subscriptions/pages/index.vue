@@ -1,11 +1,31 @@
 <template>
   <div class="">
       <h1>Assinaturas Vindi</h1>
+
+      <datatable-slot
+      title="Lista de Assinaturas Vindi"
+      id="table1"
+      v-loading.body="loading"
+      url="http://localhost:8000/api/teste"
+      :headers="[
+      { header: '#' },
+      { header: 'Cliente' },
+      /*{ header: 'Email' },
+      { header: 'Niveis de Acesso' },
+      { header: 'Status' },
+      { header: 'Criado em' },*/
+      { header: 'Ações' }
+      ]">
+      <tr v-for="(row, index) in rows">
+        <td>{{ index + 1 }}</td>
+        <td>{{ row.customer.name }}</td>
+      </tr>
+    </datatable-slot>
   </div>
 </template>
 
 <script>
-import { userURL } from '../../../../services/config'
+import { vindiSubscriptions } from '../../../../services/config'
 import { http } from 'plugins/http'
 import _ from 'lodash'
 export default {
@@ -22,11 +42,14 @@ export default {
     '$route': 'fetchData'
   },
   created() {
-
+    this.fetchData()
+    setTimeout(function() {
+      self.dtHandle = $('#' + 'table1').DataTable()
+    }, 1000)
   },
   methods: {
     fetchData() {
-      http.get(userURL).then(response => {
+      http.get(vindiSubscriptions).then(response => {
         console.log(response)
         this.rows = response.data
         this.refreshTable()
@@ -34,10 +57,9 @@ export default {
         console.log(error)
       })
     },
-    pluckRoles(roles) {
-      return _.map(roles, 'display_name').join(', ')
-      // console.log(_.map(roles, 'display_name'))
-    },
+    // pluckRoles(roles) {
+    //   return _.map(roles, 'display_name').join(', ')
+    // },
     date (val) {
       return moment(val).format('DD/MM/YYYY HH:mm:ss')
     },

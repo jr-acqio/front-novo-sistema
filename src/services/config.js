@@ -21,6 +21,10 @@ export const permUrl = apiDomain + 'api/permission'
 // Rotas de api
 export const userListUrl = apiDomain + version + 'user'
 
+// Rotas Modulo Vindi
+export const vindiSubscriptions = apiDomain + version + 'vindi/subscriptions'
+export const vindiBills = apiDomain + version + 'vindi/bills'
+
 export const getHeader = function () {
   const tokenData = localStorage.getItem('token')
   const headers = {

@@ -27,6 +27,11 @@ import httpPlugin from './plugins/http'
 import eventbus from './plugins/eventbus'
 
 /**
+* Make $bus avaible to all components
+*/
+Vue.use(eventbus)
+
+/**
 * Make $http avaible to all components
 * Send store and router to httpPlugin (injection)
 */
@@ -95,24 +100,5 @@ var app = new Vue({
   router,
   store,
   // template: '<App/>',
-  // components: { App }
   render: h => h(App),
 })
-
-// axios.interceptors.response.use(function (response) {
-//   return response
-// }, function (error) {
-//   if (error.response.status === 401) {
-//     console.log('Need to login again')
-//     app.$root.$children[0].isAuth = false
-//     Vue.auth.destroyToken()
-//     router.push({name: 'home'})
-//     app.$root.$notify({
-//       title: 'Acesso Negado!',
-//       message: 'Para ter acesso realize seu login',
-//       type: 'error',
-//       duration: 5000
-//     })
-//   }
-//   return Promise.reject(error)
-// })

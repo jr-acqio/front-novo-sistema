@@ -113,6 +113,9 @@ export default{
 			<li>
 				<router-link to="/vindi/subscriptions"><i class="icon-pencil"></i> Assinaturas</router-link>
 			</li>
+			<li>
+				<router-link to="/vindi/bills"><i class="icon-pencil"></i> Faturas</router-link>
+			</li>
 		</ul>
 	</li>
 	<!-- /Vindi -->
