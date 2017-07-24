@@ -62,7 +62,7 @@ export default {
           <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
         </ul>
 
-        <p class="navbar-text"><span class="label bg-success">Online</span></p>
+        <!-- <p class="navbar-text"><span class="label bg-success">Online</span></p> -->
 
         <ul class="nav navbar-nav navbar-right">
 

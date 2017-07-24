@@ -21,7 +21,7 @@
       <label>Password Confirmation:</label>
       <input type="password" class="form-control" v-model="form.password_confirmation">
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="">Níveis de Permissão</label><br>
       <el-select v-model="form.roles" multiple placeholder="Escolha os Niveis de Permissão">
         <el-option
@@ -31,7 +31,7 @@
         :value="item.value">
       </el-option>
     </el-select>
-  </div>
+  </div> -->
   </form>
   <span slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">Cancelar</el-button>

@@ -23,8 +23,8 @@
         <!-- <li class="active">Dashboard</li> -->
       </ul>
 
-      <ul class="breadcrumb-elements">
-        <!-- <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li> -->
+      <!-- <ul class="breadcrumb-elements">
+        <li><a href="#"><i class="icon-comment-discussion position-left"></i> Support</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="icon-gear position-left"></i>
@@ -40,7 +40,7 @@
             <li><a href="#"><i class="icon-gear"></i> All settings</a></li>
           </ul>
         </li>
-      </ul>
+      </ul> -->
     </div>
   </div>
   <!-- /page header -->

@@ -40,9 +40,9 @@ export default{
 
 					<div class="media-right media-middle">
 						<ul class="icons-list">
-							<li>
+							<!-- <li>
 								<a href="#"><i class="icon-cog3"></i></a>
-							</li>
+							</li> -->
 						</ul>
 					</div>
 				</div>
@@ -104,10 +104,10 @@ export default{
 	</li>
 
 	<!-- Vindi -->
-	<li class="navigation-header">
+	<li class="navigation-header" v-if="$acl.hasRole('financeiro')">
 		<span>Vindi</span> <i title="" class="icon-menu" data-original-title="Vindi"></i>
 	</li>
-	<li>
+	<li v-if="$acl.hasRole('financeiro')">
 		<a href="javascript:void(0)" class="has-ul"><i class="icon-calculator2"></i> <span>Vindi</span></a>
 		<ul class="hidden-ul" style="display: none;">
 			<li>

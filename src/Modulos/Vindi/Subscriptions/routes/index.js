@@ -15,6 +15,6 @@ export default [
     name: 'vindi.subscriptions',
     path: 'subscriptions',
     component: Home,
-    meta: { requiresAuth: true, requireRole: ['admin'], breadcrumb: { name: 'Assinaturas', icon: '' } }
+    meta: { requiresAuth: true, requireRole: ['financeiro'], breadcrumb: { name: 'Assinaturas', icon: '' } }
   }
 ]

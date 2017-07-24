@@ -19,7 +19,7 @@ export default function install(Vue, { store }) {
       } else {
         for (let i = 0; i < levels.length; i++) {
           for (var j = 0; j < levels[i].perms.length; j++) {
-            if (levels[i].perms[j].name === permission) {
+            if (levels[i].perms[j].name.toUpperCase() === permission.toUpperCase()) {
               return true
             }
           }
@@ -44,7 +44,7 @@ export default function install(Vue, { store }) {
           return requireAll;
         } else {
           for (let i = 0; i < store.state.Auth.user.roles.length; i++) {
-            if (store.state.Auth.user.roles[i].name === name) {
+            if (store.state.Auth.user.roles[i].name.toUpperCase() === name.toUpperCase()) {
               return true
             }
           }

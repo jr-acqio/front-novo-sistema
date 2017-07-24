@@ -19,12 +19,15 @@
           <table v-loading.body="loading" class="table table-bordered table-hover" id="table1">
             <thead>
               <tr>
-                <th>Id</th>
-                <th>Cliente</th>
-                <th>Valor R$</th>
-                <th>Status</th>
-                <th>Valor PAGO</th>
-                <th>Saldo Devedor</th>
+                <!-- <th>Id</th> -->
+                <th>Franqueado</th>
+                <th>Competência</th>
+                <th>Vencimento</th>
+                <th>Forma de Pagamento</th>
+                <th>Valor Original</th>
+                <th>Valor pendente</th>
+                <th>Produto</th>
+                <th>Email</th>
               </tr>
             </thead>
             <tbody>
@@ -53,7 +56,10 @@ export default {
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      months: [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+      ]
     }
   },
   created() {
@@ -71,34 +77,29 @@ export default {
           }
         },
         "columns": [
-            { "data": "id" },
+            // { "data": "id" },
             { "data": "customer.name" },
-            { "data": "amount",
-              render: function (data, type, row) {
-                return 'R$ ' + accounting.formatNumber(data, 2)
+            { "data": "created_at",
+              render: function(data, type, row) {
+                return moment(data).format("DD-MM-YYYY")
               }
             },
-            { "data": "status",
-              render: function (data, type, row) {
-                // alert(data === 'paid')
-                if (data === 'paid') {
-                  return '<span class="label bg-success">PAGO</span>'
+            { "data": "due_at",
+              render: function(data, type, row) {
+                if (row.due_at === null) {
+                  return moment(row.billing_at).format("DD-MM-YYYY")
                 } else {
-                  return '<span class="label bg-danger">PENDENTE</span>'
+                  return moment(data).format("DD-MM-YYYY")
                 }
               }
+
             },
             { "data": "charges",
               render: function (data, type, row) {
-                return 'R$ ' + accounting.formatNumber(_.reduce(row.charges, function(sum, n) {
-                  if (n.status === "paid") {
-                      return sum + parseFloat(n.amount)
-                  } else {
-                    return sum + 0
-                  }
-                }, 0), 2)
+                return _.map(row.charges, 'payment_method.public_name').join(', ')
               }
             },
+            { "data": "amount" },
             { "data": "charges",
               render: function (data, type, row) {
                 return 'R$ ' + accounting.formatNumber(_.reduce(row.charges, function(sum, n) {
@@ -109,8 +110,13 @@ export default {
                   }
                 }, 0), 2)
               }
-            }
-            // { "data": "salary" }
+            },
+            { "data": null,
+              render: function(data, type, row) {
+                return _.map(row.bill_items, 'product.name').join(', ')
+              }
+            },
+            { "data": "customer.email" }
         ]
       })
       me.loading = false

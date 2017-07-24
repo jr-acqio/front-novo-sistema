@@ -15,6 +15,6 @@ export default [
     name: 'vindi.bills',
     path: 'bills',
     component: Home,
-    meta: { requiresAuth: true, requireRole: ['admin'], breadcrumb: { name: 'Faturas', icon: '' } }
+    meta: { requiresAuth: true, requireRole: ['financeiro'], breadcrumb: { name: 'Faturas', icon: '' } }
   }
 ]

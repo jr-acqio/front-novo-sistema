@@ -1,7 +1,7 @@
 <template>
 		<!-- Footer -->
     <div class="footer text-muted text-center">
-      &copy; 2014 - {{ now }}. <a href="#">Sistema Acqio</a>. Desenvolvido por: <a href="http://github.com/juniorpaiva95" target="_blank">Júnior Paiva</a>
+      &copy; 2014 - {{ now }}. Desenvolvido por: <a href="#" target="_blank"><i class="icon-lab"></i>  Acqio Labs</a>
     </div>
     <!-- /footer -->
 </template>
