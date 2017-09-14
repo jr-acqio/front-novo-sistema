@@ -20,7 +20,6 @@ export default {
     }
   },
   mounted () {
-    this.$loading = this.$refs.loading
   },
   created () {
   },
@@ -42,7 +41,7 @@ export default {
 
 <template>
   <div>
-    <loading ref="loading"></loading>
+    <vue-progress-bar></vue-progress-bar>
 
     <!-- Main navbar -->
     <div v-if="isLogged" class="navbar navbar-inverse">

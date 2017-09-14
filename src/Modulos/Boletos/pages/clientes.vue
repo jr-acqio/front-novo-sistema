@@ -233,6 +233,9 @@
       <td v-if="row.cliente.idfranqueado != null">
         {{ row.cliente.franqueado.nome_razao }}
       </td>
+      <td v-else-if="row.cliente.idfranqueado == null && row.cliente.idfda == null">
+        Foi perdido a referência do Solicitante
+      </td>
       <td v-else>
         {{ row.cliente.fda.nome_razao }}
       </td>
@@ -287,6 +290,7 @@ export default {
   },
   mounted() {
     // console.log(this.$route)
+    this.$Progress.start()
     fetchAllBoletoCliente().then(response => {
       this.rows = response.data
       var self = this
@@ -311,9 +315,11 @@ export default {
           })
       }, 100)
       this.loading = false
+      this.$Progress.finish()
     }).catch(error => {
       console.log(error)
       this.loading = false
+      this.$Progress.fail()
       this.$notify({
         title: 'Erro',
         message: 'Houve um erro de resposta no servidor',

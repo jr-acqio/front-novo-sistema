@@ -1,10 +1,24 @@
 import { sync } from 'vuex-router-sync'
 import Vue from 'vue'
 import ElementUI from 'element-ui'
-import locale from 'element-ui/lib/locale/lang/en'
 import App from './App'
 
+import lang from 'element-ui/lib/locale/lang/pt-br'
+import locale from 'element-ui/lib/locale'
+
+// configure language
+locale.use(lang)
+
 require('./includes')
+
+import VueProgressBar from 'vue-progressbar'
+
+Vue.use(VueProgressBar, {
+  color: 'rgb(143, 255, 199)',
+  failedColor: 'red',
+  height: '2px'
+})
+
 /**
 * This is the Vuex store and it is
 * avaible to all your components
@@ -25,6 +39,18 @@ import httpPlugin from './plugins/http'
 * eventbus plugin
 */
 import eventbus from './plugins/eventbus'
+
+/**
+* Import Vue Mask
+*/
+import VueTheMask from 'vue-the-mask'
+
+Vue.use(VueTheMask)
+
+import money from 'v-money'
+
+// register directive v-money and component <money>
+Vue.use(money, {precision: 2, prefix: 'R$ ', decimal: ',', thousands: '.'})
 
 /**
 * Make $bus avaible to all components

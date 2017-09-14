@@ -1,4 +1,4 @@
-import { Cliente, Conciliation, Franchising, HomeBoleto } from './components'
+import { Cliente, Conciliation, Franchising, HomeBoleto, BoletoSimples } from './components'
 
 const children = [
   {
@@ -22,6 +22,14 @@ const children = [
     meta: {
       requiresAuth: true, breadcrumb: { name: 'Conciliação', icon: 'icon-barcode2' }
     }
+  },
+  {
+    path: '/boletos/boleto-simples',
+    component: BoletoSimples,
+    name: 'boletos.boleto-simples',
+    meta: {
+      requiresAuth: true, breadcrumb: { name: 'Boleto Simples', icon: 'icon-barcode2' }
+    }
   }
 ]
 
@@ -31,7 +39,6 @@ export default [
     name: 'boleto.index',
     path: '/boletos',
     component: HomeBoleto,
-    redirect: { name: 'auth.signin' },
     meta: { requiresAuth: true, breadcrumb: { name: 'Boletos', icon: '' } }
   }
 ]

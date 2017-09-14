@@ -100,6 +100,9 @@ export default{
 			<li v-if="$acl.can('view-boleto')">
 				<router-link to="/boletos/franchising"><i class="icon-barcode2"></i> Boletos Franchising</router-link>
 			</li>
+			<li v-if="$acl.can('view-boleto')">
+				<router-link to="/boletos/boleto-simples"><i class="icon-barcode2"></i> Boleto Simples</router-link>
+			</li>
 		</ul>
 	</li>
 

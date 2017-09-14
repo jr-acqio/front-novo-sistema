@@ -47,9 +47,13 @@ if (process.env.NODE_ENV !== 'development') {
   boletosDomain = 'http://localhost:8081/'
   boletosDownload = 'https://sandbox.boletocloud.com/boleto/2via/download/'
 }
+var boletoSimplesDomain = 'http://localhost:8000/'
 
 export const boletosVersion = 'api/v1/'
 export const boletosDownloadUrl = boletosDownload
 export const boletosClienteUrl = boletosDomain + boletosVersion + 'boletos-cliente'
 export const boletosFranchisingUrl = boletosDomain + boletosVersion + 'boletos-franchising'
 export const boletosSolicitados = boletosDomain + boletosVersion + 'boletos-solicitados'
+
+// Boleto Simples
+export const boletoSimples = boletoSimplesDomain + 'api/boleto-simples'
