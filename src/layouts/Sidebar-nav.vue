@@ -106,6 +106,14 @@ export default{
 		</ul>
 	</li>
 
+	<li>
+		<a href="javascript:void(0)" class="has-ul"><i class="icon-server"></i> <span>Aplicativos</span></a>
+		<ul class="hidden-ul" style="display:none;">
+			<li><router-link :to="{ name: 'app.kf.lancar-valores-admin', params: {} }">Lançar valores no Admin <i class="icon-coins"></i></router-link></li>
+			<li><router-link :to="{ name: 'app.kf.liberacao-pagamento', params: {} }">Liberação de Pagamento <i class="icon-cash3"></i></router-link></li>
+		</ul>
+	</li>
+
 	<!-- Vindi -->
 	<li class="navigation-header" v-if="$acl.hasRole('financeiro')">
 		<span>Vindi</span> <i title="" class="icon-menu" data-original-title="Vindi"></i>

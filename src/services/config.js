@@ -40,14 +40,16 @@ export const conciliationBoletosUrl = apiDomain + 'api/conciliation'
 
 var boletosDomain
 var boletosDownload
+var boletoSimplesDomain
 if (process.env.NODE_ENV !== 'development') {
   boletosDomain = 'https://boletos.acqio.co/'
   boletosDownload = 'https://app.boletocloud.com/boleto/2via/download/'
+  boletoSimplesDomain = 'https://dev.acqio.co/'
 } else {
   boletosDomain = 'http://localhost:8081/'
   boletosDownload = 'https://sandbox.boletocloud.com/boleto/2via/download/'
+  boletoSimplesDomain = 'http://localhost:8000/'
 }
-var boletoSimplesDomain = 'http://localhost:8000/'
 
 export const boletosVersion = 'api/v1/'
 export const boletosDownloadUrl = boletosDownload

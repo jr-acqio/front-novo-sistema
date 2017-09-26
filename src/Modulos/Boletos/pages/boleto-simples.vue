@@ -5,8 +5,20 @@
     </div>
     <div class="panel-body">
       <form v-loading="loading" @submit.prevent="gerarBoleto" @keydown="form.errors.clear($event.target.name)">
-        <alert-errors :form="form" classe="alert bg-danger alert-styled-left" message=""></alert-errors>
-        <alert-success :form="form" classe="alert bg-success alert-styled-left" message="Boleto gerado com sucesso!"></alert-success>
+        <!-- <alert-errors :form="form" classe="alert bg-danger alert-styled-left" message=""></alert-errors> -->
+        <div v-if="form.errors.any()" class="alert bg-danger alert-styled-left">
+          <ul>
+            <li v-for="(e, index) in form.errors.errors"><b>{{ index.toUpperCase() }}:</b> {{ e.join(', ') }}</li>
+          </ul>
+        </div>
+        <div v-if="form.successful" class="alert bg-success alert-styled-left">
+            <div class="row">
+              <h4>
+                Boleto gerado com sucesso!
+                <a target="_blank" class="pull-right" :href="response.url"><button type="button" class="btn btn-default">Visualizar Boleto <i class="icon-barcode2"></i></button></a>
+              </h4>
+            </div>
+        </div>
         <div class="row">
           <div class="form-group col-lg-6" :class="{ 'has-error': form.errors.errors.customer_person_name }">
             <label>Nome do Cliente</label>
@@ -21,7 +33,7 @@
         <div class="row">
           <div class="form-group col-lg-6" :class="{ 'has-error': form.errors.errors.customer_phone_number }">
             <label>Telefone</label>
-            <input type="email" placeholder="Exemplo: (99) 9 9999-9999" v-mask="['(##) 9 ####-####']" v-model="form.customer_phone_number" class="form-control">
+            <input type="text" placeholder="Exemplo: (99) 9 9999-9999" v-mask="['(##) 9 ########']" v-model="form.customer_phone_number" class="form-control">
           </div>
           <div class="form-group col-lg-3" :class="{ 'has-error': form.errors.errors.customer_cnpj_cpf }">
             <label>CPF/CNPJ</label><br>
@@ -82,6 +94,7 @@
         <div class="row">
           <div class="form-group col-lg-12">
             <button type="submit" class="btn btn-primary">Criar </button>
+            <button type="button" @click="resetarFormulario" class="btn btn-default">Limpar <i class="icon-eraser2"></i> </button>
           </div>
         </div>
       </form>
@@ -103,6 +116,7 @@ export default {
   data() {
     return {
       loading: false,
+      response: '',
       form: new Form({
         amount: '',
         description: '',
@@ -128,14 +142,18 @@ export default {
     },
     gerarBoleto() {
       this.$Progress.start()
+      let vm = this
       this.form.post(boletoSimples).then(response => {
         this.$Progress.finish()
-        // this.clearForm()
+        vm.response = response.data
         swal("Boleto gerado!", "", "success")
       }).catch(response => {
         this.$Progress.fail()
         console.log(response)
       })
+    },
+    resetarFormulario() {
+      this.form.reset()
     },
     loadCep() {
       let vm = this

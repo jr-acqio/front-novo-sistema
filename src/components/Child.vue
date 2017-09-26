@@ -8,7 +8,13 @@
 
 <script>
 export default {
-  name: 'child'
+  name: 'child',
+  beforeUpdate () {
+    this.$Progress.start()
+  },
+  updated () {
+    this.$Progress.finish()
+  }
 }
 </script>
 
