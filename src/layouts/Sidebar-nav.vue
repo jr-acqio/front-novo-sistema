@@ -91,7 +91,7 @@ export default{
 	<li>
 		<a href="javascript:void(0)" class="has-ul"><i class="icon-barcode2"></i> <span>Boletos</span></a>
 		<ul class="hidden-ul" style="display: none;">
-			<li>
+			<!-- <li>
 				<router-link to="/boletos/conciliation"><i class="icon-wallet"></i> Conciliar</router-link>
 			</li>
 			<li v-if="$acl.can('view-boleto')">
@@ -99,9 +99,13 @@ export default{
 			</li>
 			<li v-if="$acl.can('view-boleto')">
 				<router-link to="/boletos/franchising"><i class="icon-barcode2"></i> Boletos Franchising</router-link>
+			</li> -->
+			<!-- <li v-if="$acl.can('view-boleto')"> -->
+			<li>
+				<router-link to="/boletos/boleto-simples/novo"><i class="icon-barcode2"></i> Boleto avulso</router-link>
 			</li>
-			<li v-if="$acl.can('view-boleto')">
-				<router-link to="/boletos/boleto-simples"><i class="icon-barcode2"></i> Boleto Simples</router-link>
+			<li>
+				<router-link to="/boletos/boleto-simples"><i class="icon-search4"></i> Consulta</router-link>
 			</li>
 		</ul>
 	</li>
@@ -110,7 +114,8 @@ export default{
 		<a href="javascript:void(0)" class="has-ul"><i class="icon-server"></i> <span>Aplicativos</span></a>
 		<ul class="hidden-ul" style="display:none;">
 			<li><router-link :to="{ name: 'app.kf.lancar-valores-admin', params: {} }">Lançar valores no Admin <i class="icon-coins"></i></router-link></li>
-			<li><router-link :to="{ name: 'app.kf.liberacao-pagamento', params: {} }">Liberação de Pagamento <i class="icon-cash3"></i></router-link></li>
+			<li><router-link :to="{ name: 'app.kf.liberacao-pagamento', params: {} }">Pagamento saldo < R$ 200 <i class="icon-cash3"></i></router-link></li>
+			<li><router-link :to="{ name: 'app.kf.cancelamento-e-chargeback', params: {} }">Cancelamento e ChargeBack <i class="icon-credit-card"></i></router-link></li>
 		</ul>
 	</li>
 

@@ -1,186 +1,100 @@
-<template>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      Gerar novo BoletoSimples
-    </div>
-    <div class="panel-body">
-      <form v-loading="loading" @submit.prevent="gerarBoleto" @keydown="form.errors.clear($event.target.name)">
-        <!-- <alert-errors :form="form" classe="alert bg-danger alert-styled-left" message=""></alert-errors> -->
-        <div v-if="form.errors.any()" class="alert bg-danger alert-styled-left">
-          <ul>
-            <li v-for="(e, index) in form.errors.errors"><b>{{ index.toUpperCase() }}:</b> {{ e.join(', ') }}</li>
-          </ul>
-        </div>
-        <div v-if="form.successful" class="alert bg-success alert-styled-left">
-            <div class="row">
-              <h4>
-                Boleto gerado com sucesso!
-                <a target="_blank" class="pull-right" :href="response.url"><button type="button" class="btn btn-default">Visualizar Boleto <i class="icon-barcode2"></i></button></a>
-              </h4>
-            </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-lg-6" :class="{ 'has-error': form.errors.errors.customer_person_name }">
-            <label>Nome do Cliente</label>
-            <input type="text" v-model="form.customer_person_name" class="form-control">
-            <span class="help-block">{{ printError(form.errors.errors.customer_person_name) }}</span>
-          </div>
-          <div class="form-group col-lg-6" :class="{ 'has-error': form.errors.errors.customer_email }">
-            <label>Email</label>
-            <input type="email" v-model="form.customer_email" class="form-control">
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-lg-6" :class="{ 'has-error': form.errors.errors.customer_phone_number }">
-            <label>Telefone</label>
-            <input type="text" placeholder="Exemplo: (99) 9 9999-9999" v-mask="['(##) 9 ########']" v-model="form.customer_phone_number" class="form-control">
-          </div>
-          <div class="form-group col-lg-3" :class="{ 'has-error': form.errors.errors.customer_cnpj_cpf }">
-            <label>CPF/CNPJ</label><br>
-            <input type="text" v-model="form.customer_cnpj_cpf" v-mask="['###.###.###-##', '##.###.###/####-##']" class="form-control">
-            <span class="help-block">{{ printError(form.errors.errors.customer_cnpj_cpf) }}</span>
-          </div>
+<template lang="html">
+  <div class="row">
 
-          <div class="form-group col-lg-3">
-            <label>CEP</label>
-            <input @blur="loadCep" type="text" class="form-control" v-mask="'#####-###'" name="cep" value="" v-model="form.customer_zipcode">
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-lg-3">
-            <label>Cidade</label>
-            <input type="text" class="form-control" value="" v-model="form.customer_city_name">
-          </div>
-          <div class="form-group col-lg-3">
-            <label>Bairro</label>
-            <input type="text" class="form-control" value="" v-model="form.customer_neighborhood">
-          </div>
-          <div class="form-group col-lg-3">
-            <label>Endereço</label>
-            <input type="text" class="form-control" value="" v-model="form.customer_address">
-          </div>
-          <div class="form-group col-lg-3">
-            <label>UF</label>
-            <input type="text" maxlength="2" class="form-control" value="" v-model="form.customer_state">
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-lg-3">
-            <label>Complemento</label>
-            <input type="text" class="form-control" value="" v-model="form.customer_address_complement">
-          </div>
-          <div class="form-group col-lg-3">
-            <label>Numero</label>
-            <input type="text" class="form-control" value="" v-model="form.customer_address_number">
-          </div>
+    <datatable-slot
+    title="Lista de Boletos"
+    id="table1"
+    v-loading.body="loading"
+    url="http://localhost:8000/api/teste"
+    :headers="[
+    { header: '#' },
+    { header: 'Cliente' },
+    { header: 'Valor' },
+    { header: 'Nosso número' },
+    { header: 'Status' },
+    { header: 'Criado em' },
+    { header: 'Vencimento'},
+    { header: 'Ações' }
+    ]">
+    <tr v-for="(row, index) in rows">
+      <td>{{ index + 1 }}</td>
+      <td>{{ row.customer_person_name }}</td>
+      <td>{{ formatNumber(row.amount) }}</td>
+      <td>{{ row.processed_our_number }}</td>
+      <td>{{ row.status }}</td>
+      <td>{{ formatarData(row.created_at) }}</td>
+      <td>{{ formatarData(row.expire_at) }}</td>
+      <td sortable="false">
+        <ul class="icons-list">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="icon-menu9"></i>
+            </a>
 
-          <div class="form-group col-lg-3">
-            <label>Valor R$</label>
-            <money v-model="form.amount" class="form-control" v-bind="money"></money>
-          </div>
-
-          <div class="form-group col-lg-3" :class="{ 'has-error': form.errors.errors.expire_at}">
-            <label>Data de Vencimento</label><br>
-            <el-date-picker v-model="form.expire_at" type="date" placeholder="Escolha uma data" format="dd/MM/yyyy" :picker-options="pickerOptions1"></el-date-picker>
-            <span class="help-block">{{ printError(form.errors.errors.expire_at) }}</span>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-lg-12">
-            <label>Descrição</label>
-            <textarea name="name" rows="10" cols="80" class="form-control" v-model="form.description"></textarea>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group col-lg-12">
-            <button type="submit" class="btn btn-primary">Criar </button>
-            <button type="button" @click="resetarFormulario" class="btn btn-default">Limpar <i class="icon-eraser2"></i> </button>
-          </div>
-        </div>
-      </form>
-    </div>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li>
+                <a target="_blank" :href="row.url">Visualizar <i class="icon-search4"></i></a>
+                <a target="_blank" :href="row.formats.pdf">Download <i class="icon-download"></i></a>
+                <!-- <router-link :to="{ name: 'role.edit', params: { id: row.id } }"><i class="icon-database-edit2"></i> Editar</router-link> -->
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </datatable-slot>
   </div>
+
 </template>
 
 <script>
-import { Form } from 'vform'
-import axios from 'axios'
-import _ from 'lodash'
+import accounting from 'accounting'
 import { http } from 'plugins/http'
-import { fetchAllBoletoCliente } from './../../../services/api'
-import { boletoSimples } from './../../../services/config'
+import { myMixin } from 'mixins/mixins'
 export default {
+  mixins: [myMixin],
   metaInfo: {
-    titleTemplate: '%s - Gerar BoletoSimples'
+    titleTemplate: '%s - Consulta Boleto Simples'
   },
-  data() {
+  data () {
     return {
-      loading: false,
-      response: '',
-      form: new Form({
-        amount: '',
-        description: '',
-        expire_at: '',
-        customer_address: '',
-        customer_address_complement: '',
-        customer_address_number: '',
-        customer_city_name: '',
-        customer_cnpj_cpf: '',
-        customer_email: '',
-        customer_neighborhood: '',
-        customer_person_name: '',
-        customer_person_type: '',
-        customer_phone_number: '',
-        customer_state: '',
-        customer_zipcode: ''
-      })
+      rows: []
     }
+  },
+  mounted() {
+    let self = this
+    this.fetchData().then(response => {
+      this.$Progress.finish()
+      this.rows = response.data
+      // self.dtHandle = $('#' + 'table1').DataTable()
+      // self.refreshTable()
+      setTimeout(function() {
+        self.dtHandle = $('#' + 'table1').DataTable()
+      }, 1000)
+    }).catch(error => {
+      this.$Progress.fail()
+      console.log(error)
+    })
   },
   methods: {
-    printError(array) {
-      return _.join(array, ", ")
+    fetchData() {
+      let url = process.env.NODE_ENV !== 'development' ? 'https://lab.acqio.co/' : 'http://localhost:8000'
+      let self = this
+      return new Promise(function(resolve, reject) {
+        self.$Progress.start()
+        http.get(url + '/api/boleto-simples').then(response => {
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      });
     },
-    gerarBoleto() {
-      this.$Progress.start()
-      let vm = this
-      this.form.post(boletoSimples).then(response => {
-        this.$Progress.finish()
-        vm.response = response.data
-        swal("Boleto gerado!", "", "success")
-      }).catch(response => {
-        this.$Progress.fail()
-        console.log(response)
-      })
+    formatNumber (value) {
+      return 'R$ ' + accounting.formatNumber(value, 2)
     },
-    resetarFormulario() {
-      this.form.reset()
-    },
-    loadCep() {
-      let vm = this
-      this.$Progress.start()
-      $.ajax({
-        url: "https://viacep.com.br/ws/" + vm.form.customer_zipcode + "/json/",
-        success: function(data) {
-          console.log(data)
-          vm.form.customer_city_name = data.localidade
-          vm.form.customer_neighborhood = data.bairro
-          vm.form.customer_state = data.uf
-          vm.form.customer_address = data.logradouro
-          vm.$Progress.finish()
-        },
-        error: function() {
-          vm.$Progress.fail()
-          swal("", "CEP Inválido!", "error")
-        }
-      })
-    }
   }
 }
-
 </script>
 
-<style scoped="">
-body {
-  margin: 0;
-}
+<style lang="css">
 </style>

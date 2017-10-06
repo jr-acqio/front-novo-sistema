@@ -1,4 +1,4 @@
-import { KissFlowIndex, App1, App2 } from './components'
+import { KissFlowIndex, App1, App2, App3 } from './components'
 
 const children = [
   {
@@ -12,6 +12,12 @@ const children = [
     component: App2,
     name: 'app.kf.liberacao-pagamento',
     meta: { requiresAuth: true, breadcrumb: { name: 'Liberação de pagamento', icon: '' } }
+  },
+  {
+    path: 'cancelamento-e-chargeback',
+    component: App3,
+    name: 'app.kf.cancelamento-e-chargeback',
+    meta: { requiresAuth: true, breadcrumb: { name: 'Cancelamento e ChargeBack', icon: '' } }
   }
 ]
 

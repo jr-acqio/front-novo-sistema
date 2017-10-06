@@ -12,6 +12,12 @@ const children = [
     component: Profile,
     name: 'security.profile',
     meta: { requiresAuth: true, breadcrumb: { name: 'Meu Perfil', icon: 'icon-user' } }
+  },
+  {
+    path: '/users/edit/:id',
+    component: Edit,
+    name: 'user.edit',
+    meta: { requiresAuth: true, breadcrumb: { name: 'Editar usuario', icon: 'icon-user' } }
   }
 ]
 

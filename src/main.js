@@ -121,6 +121,7 @@ Vue.use(VueBreadcrumbs)
 Vue.use(ElementUI)
 // Vue.use(VueSocketio, 'http://localhost:8890')
 
+import { myMixin } from 'mixins/mixins'
 var app = new Vue({
   el: '#app',
   router,

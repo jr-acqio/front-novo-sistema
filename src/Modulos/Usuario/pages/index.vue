@@ -40,6 +40,9 @@
               </a>
 
               <ul class="dropdown-menu dropdown-menu-right">
+                <li>
+                  <router-link :to="{ name: 'user.edit', params: { id: row.id } }"><i class="icon-database-remove"></i> Editar</router-link>
+                </li>
                 <li v-if="row.deleted_at === null" @click="askInactive(index)">
                   <a href="javascript:void(0)"><i class="icon-database-remove"></i> Inativar</a>
                 </li>

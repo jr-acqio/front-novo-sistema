@@ -4,3 +4,5 @@ export const KissFlowIndex = r => require.ensure([], () => r(require('../pages/i
 export const App1 = r => require.ensure([], () => r(require('../pages/kf-lancarValoresAdmin')), 'app-kf-bundle')
 // Liberação de pagamento para valores inferiores a R$ 200
 export const App2 = r => require.ensure([], () => r(require('../pages/kf-PagamentoInferiorDuzentos')), 'app-kf-bundle')
+
+export const App3 = r => require.ensure([], () => r(require('../pages/kf-CancelamentoEChargeBack')), 'app-kf-bundle')

@@ -2,4 +2,5 @@ export const Cliente = r => require.ensure([], () => r(require('../pages/cliente
 export const Conciliation = r => require.ensure([], () => r(require('../pages/conciliation')), 'boleto-bundle')
 export const Franchising = r => require.ensure([], () => r(require('../pages/franchising')), 'boleto-bundle')
 export const HomeBoleto = r => require.ensure([], () => r(require('../pages/index')), 'boleto-bundle')
-export const BoletoSimples = r => require.ensure([], () => r(require('../pages/boleto-simples')), 'boleto-bundle')
+export const BoletoSimples = r => require.ensure([], () => r(require('../pages/boleto-simples-novo')), 'boleto-bundle')
+export const HomeBoletoSimples = r => require.ensure([], () => r(require('../pages/boleto-simples')), 'boleto-bundle')
